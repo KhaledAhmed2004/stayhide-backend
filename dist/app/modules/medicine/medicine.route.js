@@ -1,0 +1,26 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MedicationRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const auth_1 = __importDefault(require("../../middlewares/auth"));
+const user_1 = require("../../../enums/user");
+const medicine_controller_1 = require("./medicine.controller");
+const medicine_validation_1 = require("./medicine.validation");
+const router = express_1.default.Router();
+router.post('/', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), (0, validateRequest_1.default)(medicine_validation_1.MedicationValidation.createMedicationZodSchema), medicine_controller_1.MedicationController.createMedication);
+router.get('/', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), medicine_controller_1.MedicationController.getAllMedicines);
+router.get('/today', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), medicine_controller_1.MedicationController.getTodaySchedule);
+router.get('/history', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), medicine_controller_1.MedicationController.getHistory);
+router.get('/stats', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), medicine_controller_1.MedicationController.getStats);
+router.post('/logs', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), (0, validateRequest_1.default)(medicine_validation_1.MedicationValidation.logMedicationZodSchema), medicine_controller_1.MedicationController.upsertLog);
+router.post('/cron/mark-missed', (0, auth_1.default)(user_1.USER_ROLES.ADMIN), medicine_controller_1.MedicationController.markMissedDoses);
+router.get('/:medicineId/logs', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), medicine_controller_1.MedicationController.getLogsForMedication);
+router.get('/:medicineId', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), medicine_controller_1.MedicationController.getSingleMedicine);
+router.patch('/:medicineId', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), (0, validateRequest_1.default)(medicine_validation_1.MedicationValidation.updateMedicationZodSchema), medicine_controller_1.MedicationController.updateMedication);
+router.patch('/:medicineId/archive', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), medicine_controller_1.MedicationController.archiveMedication);
+router.patch('/:medicineId/refill', (0, auth_1.default)(user_1.USER_ROLES.USER, user_1.USER_ROLES.ADMIN), (0, validateRequest_1.default)(medicine_validation_1.MedicationValidation.refillInventoryZodSchema), medicine_controller_1.MedicationController.refillInventory);
+exports.MedicationRoutes = router;

@@ -1,0 +1,118 @@
+# Project AI Rules
+
+> Full rules are in `CLAUDE.md`. This file contains a complete inline copy of all coding rules
+> so Cursor can apply them without needing to follow a link.
+
+---
+
+## 🛑 CRITICAL: Documentation Integrity (API Inventory)
+
+- **ONLY** document endpoints that currently exist in the codebase (routes/controllers).
+- **NEVER** add "missing", "future", or "imaginary" APIs to the `api-inventory.md` or UX flow docs unless they are already implemented in code.
+- If an API is missing but needed, suggest it in the conversation instead of adding it to the documentation tracker.
+- **MANDATORY**: When creating or updating API documentation `.md` files, any tables for `Query Parameters`, `Path Parameters`, or `Request Body` MUST include an `Example` or `Default` column. This is critical for the `generate-postman.ts` script to extract values.
+
+---
+
+## ⚠️ CRITICAL: Import Order (src/app.ts & src/server.ts)
+
+Violation causes runtime errors. MANDATORY order:
+1. `mongooseMetrics`
+2. `autoLabelBootstrap`
+3. `opentelemetry`
+4. `patchBcrypt`, `patchJWT`, `patchStripe`
+5. **LAST**: `routes`
+
+---
+
+## 📐 Architecture
+
+**Module Structure** — every feature in `src/app/modules/[feature]/`:
+- `[feature].interface.ts` — types, enums, model type
+- `[feature].model.ts` — Mongoose schema + statics
+- `[feature].controller.ts` — thin handler (`catchAsync` + `sendResponse`)
+- `[feature].service.ts` — fat business logic (`ApiError` for errors)
+- `[feature].route.ts` — Express routes
+- `[feature].validation.ts` — Zod schemas
+
+**Request Flow**: Route → `validateRequest` → Controller (`catchAsync`) → Service → Model → `sendResponse()`
+
+**Query Builders**:
+- `QueryBuilder`: `.search()`, `.filter()`, `.sort()`, `.paginate()`, `.fields()`
+- `AggregationBuilder`: `.match()`, `.lookup()`, `.unwind()`, `.group()`, `.sort()`, `.paginate()`
+
+**File Upload** (`fileHandler.ts`): `fileHandler(['field'])` or `fileHandler({ maxFileSizeMB, maxFilesTotal, ... })`
+
+---
+
+## 🧹 Clean Code
+
+- Meaningful names: `userSubscription` NOT `sub`
+- Booleans: `isActive`, `hasPermission`, `shouldRetry`
+- Variables/functions: `camelCase` | Classes/interfaces: `PascalCase`
+- Files: singular — `feature.route.ts` NOT `feature.routes.ts`
+- Functions < 30 lines, single responsibility
+- `async/await` only — no raw `.then()`
+- Env vars via `config/index.ts` — NEVER `process.env` directly
+- Throw `ApiError(StatusCode, message)` for all errors
+- **No Magic Strings**: NEVER use magic strings. ALWAYS use a `[feature].constants.ts` file.
+- `.lean()` on read-only Mongoose queries
+- Index all search/filter fields
+
+---
+
+## 🛣️ Route Design
+
+**Middleware chain**: `rateLimit` → `auth` → `fileHandler` → `validateRequest` → `Controller`
+
+**Declaration order** (fixed paths BEFORE param paths):
+1. `POST /webhook` (no auth)
+2. Collection fixed: `POST /`, `GET /`, `GET /stats`, `GET /my-items`
+3. By param: `GET /:id`, `PATCH /:id`, `DELETE /:id`
+4. Nested: `POST /:id/modules`
+
+**HTTP methods**: `GET`=read, `POST`=create/action, `PATCH`=partial update, `DELETE`=remove
+**Actions as suffix**: `PATCH /:id/block` NOT `/block/:id`
+
+**Postman**: `public/postman-collection.json` — update on EVERY route change, use `{{baseUrl}}`, `{{accessToken}}`
+
+---
+
+## 🔑 User Roles
+
+```typescript
+enum USER_ROLES { SUPER_ADMIN = 'SUPER_ADMIN', STUDENT = 'STUDENT' }
+enum USER_STATUS { ACTIVE, INACTIVE, RESTRICTED, DELETE }
+```
+
+---
+
+## 🧠 Skill Routing
+
+When the request matches, read and follow the SKILL.md from `.trae/skills/` **before** answering:
+
+| Request | Skill |
+|---|---|
+| Product ideas, brainstorming | `.trae/skills/gstack-office-hours` |
+| Plan review, strategy | `.trae/skills/gstack-ceo-review` |
+| Code review, security check | `.trae/skills/gstack-review` |
+| Bugs, edge cases, testing | `.trae/skills/gstack-qa` |
+| Research, compare libraries | `.trae/skills/gstack-browse` |
+| Feature spec, "build from scratch" | `.trae/skills/gsd-spec` |
+| Context rot, "what's the progress" | `.trae/skills/gsd-state` |
+| Root cause analysis | `.trae/skills/superpowers-debugging` |
+| UX flow, screen-by-screen API docs | `.trae/skills/ux-flow-api-docs` |
+| API design, Mongoose modeling | `.trae/skills/api-design` / `.trae/skills/nosql-database-design` |
+
+---
+
+## 🔁 Workflows
+
+For multi-step tasks, read and execute the workflow from `.agent/workflows/`:
+
+| Trigger | Workflow |
+|---|---|
+| New feature or module | `.agent/workflows/feature-implementation.md` |
+| Bug / error / broken behavior | `.agent/workflows/bug-fix.md` |
+| Code review request | `.agent/workflows/code-review.md` |
+| API audit / Postman sync | `.agent/workflows/api-audit.md` |

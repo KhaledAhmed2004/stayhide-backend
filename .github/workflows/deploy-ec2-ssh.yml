@@ -1,0 +1,50 @@
+name: Deploy Backend to EC2 (Docker)
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: backend-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy Backend
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script_stop: true
+          timeout: 600s
+          script: |
+            set -e
+
+            echo "=== Deployment started at $(date) ==="
+
+            # Project directory path (Ensure this exists on server)
+            cd /var/www/okjt100
+
+            echo ">>> Pulling latest code..."
+            git pull origin main
+
+            echo ">>> Starting Docker containers..."
+            # Using the scripts we added to package.json
+            npm run docker:up
+
+            echo ">>> Cleaning up old unused images..."
+            docker image prune -f
+
+            sleep 5
+            echo ">>> Health check (via Nginx)..."
+            # Nginx handles port 80/443, so we check localhost directly
+            curl -sf http://localhost/ || echo "WARNING: Health check failed"
+
+            echo "=== Deployment completed at $(date) ==="

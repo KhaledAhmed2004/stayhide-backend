@@ -1,0 +1,113 @@
+{
+  "pendingRequests": [
+    {
+      "requestId": "6a220fca028025147f169046",
+      "senderId": "6a14b4990d1783162d4786f8",
+      "receiverId": "6a14b4990d1783162d4786fa"
+    },
+    {
+      "requestId": "6a220fca028025147f169048",
+      "senderId": "6a14b4990d1783162d4786fc",
+      "receiverId": "6a14b49a0d1783162d4786fe"
+    },
+    {
+      "requestId": "6a220fca028025147f16904a",
+      "senderId": "6a14b49a0d1783162d478700",
+      "receiverId": "6a14b49a0d1783162d478702"
+    },
+    {
+      "requestId": "6a220fca028025147f16904c",
+      "senderId": "6a14b49a0d1783162d478704",
+      "receiverId": "6a14b49b0d1783162d478706"
+    },
+    {
+      "requestId": "6a220fca028025147f16904e",
+      "senderId": "6a14b49b0d1783162d478708",
+      "receiverId": "6a14b49b0d1783162d47870a"
+    },
+    {
+      "requestId": "6a220fca028025147f169050",
+      "senderId": "6a14b49c0d1783162d47870c",
+      "receiverId": "6a14b49c0d1783162d47870e"
+    },
+    {
+      "requestId": "6a220fca028025147f169052",
+      "senderId": "6a14b49c0d1783162d478710",
+      "receiverId": "6a14b49c0d1783162d478712"
+    },
+    {
+      "requestId": "6a220fca028025147f169054",
+      "senderId": "6a14b49d0d1783162d478714",
+      "receiverId": "6a14b49d0d1783162d478716"
+    },
+    {
+      "requestId": "6a220fca028025147f169056",
+      "senderId": "6a14b49d0d1783162d478718",
+      "receiverId": "6a14b49e0d1783162d47871a"
+    },
+    {
+      "requestId": "6a220fca028025147f169058",
+      "senderId": "6a14b49e0d1783162d47871c",
+      "receiverId": "6a14b49e0d1783162d47871e"
+    },
+    {
+      "requestId": "6a220fca028025147f16905a",
+      "senderId": "6a14b4a70d1783162d47875c",
+      "receiverId": "6a14b4a70d1783162d47875e"
+    },
+    {
+      "requestId": "6a220fca028025147f16905c",
+      "senderId": "6a14b4a70d1783162d478760",
+      "receiverId": "6a14b4a70d1783162d478762"
+    },
+    {
+      "requestId": "6a220fca028025147f16905e",
+      "senderId": "6a14b4a80d1783162d478764",
+      "receiverId": "6a14b4a80d1783162d478766"
+    },
+    {
+      "requestId": "6a220fca028025147f169060",
+      "senderId": "6a14b4a80d1783162d478768",
+      "receiverId": "6a14b4a90d1783162d47876a"
+    },
+    {
+      "requestId": "6a220fca028025147f169062",
+      "senderId": "6a14b4a90d1783162d47876c",
+      "receiverId": "6a14b4a90d1783162d47876e"
+    }
+  ],
+  "existingConnections": [
+    {
+      "userId1": "6a14b49e0d1783162d478720",
+      "userId2": "6a14b49f0d1783162d478722"
+    },
+    {
+      "userId1": "6a14b49f0d1783162d478724",
+      "userId2": "6a14b49f0d1783162d478726"
+    },
+    {
+      "userId1": "6a14b49f0d1783162d478728",
+      "userId2": "6a14b4a00d1783162d47872a"
+    },
+    {
+      "userId1": "6a14b4a00d1783162d47872c",
+      "userId2": "6a14b4a00d1783162d47872e"
+    },
+    {
+      "userId1": "6a14b4a10d1783162d478730",
+      "userId2": "6a14b4a10d1783162d478732"
+    },
+    {
+      "userId1": "6a14b4a90d1783162d478770",
+      "userId2": "6a14b4aa0d1783162d478772"
+    },
+    {
+      "userId1": "6a14b4aa0d1783162d478774",
+      "userId2": "6a14b4aa0d1783162d478776"
+    },
+    {
+      "userId1": "6a14b4aa0d1783162d478778",
+      "userId2": "6a14b4ab0d1783162d47877a"
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "coordinates": [
+    {
+      "latitude": 21.4225,
+      "longitude": 39.8262,
+      "label": "Mecca, Saudi Arabia"
+    },
+    {
+      "latitude": 24.4539,
+      "longitude": 54.3773,
+      "label": "Abu Dhabi, UAE"
+    },
+    {
+      "latitude": 51.5074,
+      "longitude": -0.1278,
+      "label": "London, UK"
+    },
+    {
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "label": "New York, USA"
+    },
+    {
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "label": "Sydney, Australia"
+    },
+    {
+      "latitude": 41.0082,
+      "longitude": 28.9784,
+      "label": "Istanbul, Turkey"
+    },
+    {
+      "latitude": 31.9454,
+      "longitude": 35.9284,
+      "label": "Amman, Jordan"
+    },
+    {
+      "latitude": 33.8938,
+      "longitude": 35.5018,
+      "label": "Beirut, Lebanon"
+    },
+    {
+      "latitude": 23.8103,
+      "longitude": 90.4125,
+      "label": "Dhaka, Bangladesh"
+    },
+    {
+      "latitude": 24.8607,
+      "longitude": 67.0011,
+      "label": "Karachi, Pakistan"
+    },
+    {
+      "latitude": 3.139,
+      "longitude": 101.6869,
+      "label": "Kuala Lumpur, Malaysia"
+    },
+    {
+      "latitude": 1.3521,
+      "longitude": 103.8198,
+      "label": "Singapore"
+    },
+    {
+      "latitude": -6.2088,
+      "longitude": 106.8456,
+      "label": "Jakarta, Indonesia"
+    },
+    {
+      "latitude": 36.7538,
+      "longitude": 3.0588,
+      "label": "Algiers, Algeria"
+    },
+    {
+      "latitude": 30.0444,
+      "longitude": 31.2357,
+      "label": "Cairo, Egypt"
+    },
+    {
+      "latitude": 59.3293,
+      "longitude": 18.0686,
+      "label": "Stockholm, Sweden"
+    },
+    {
+      "latitude": 64.1466,
+      "longitude": -21.9426,
+      "label": "Reykjavik, Iceland"
+    },
+    {
+      "latitude": -1.2921,
+      "longitude": 36.8219,
+      "label": "Nairobi, Kenya"
+    },
+    {
+      "latitude": 35.6762,
+      "longitude": 139.6503,
+      "label": "Tokyo, Japan"
+    },
+    {
+      "latitude": 25.2048,
+      "longitude": 55.2708,
+      "label": "Dubai, UAE"
+    }
+  ],
+  "calculationMethods": [
+    "MuslimWorldLeague",
+    "Egyptian",
+    "Karachi",
+    "UmmAlQura",
+    "NorthAmerica",
+    "Qatar",
+    "Singapore",
+    "Dubai",
+    "Kuwait",
+    "Turkey",
+    "ISNA"
+  ],
+  "dates": [
+    "2024-01-15",
+    "2024-03-20",
+    "2024-06-21",
+    "2024-09-22",
+    "2024-12-21",
+    "2025-01-01",
+    "2025-06-15"
+  ],
+  "madhabs": [
+    "Hanafi",
+    "Shafi"
+  ],
+  "timezones": [
+    "Asia/Riyadh",
+    "Asia/Dubai",
+    "Europe/London",
+    "America/New_York",
+    "Australia/Sydney",
+    "Europe/Istanbul",
+    "Asia/Dhaka",
+    "Asia/Karachi",
+    "Asia/Kuala_Lumpur",
+    "Asia/Singapore",
+    "Asia/Jakarta",
+    "Africa/Cairo",
+    "Europe/Stockholm",
+    "Africa/Nairobi",
+    "Asia/Tokyo"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "khutbahs": [
+    {
+      "id": "6a1f508854319c26cf7c607c",
+      "title": "loadtest-khutbah-patience",
+      "topic": "Patience"
+    },
+    {
+      "id": "6a1f508854319c26cf7c607e",
+      "title": "loadtest-khutbah-gratitude",
+      "topic": "Gratitude"
+    },
+    {
+      "id": "6a1f508854319c26cf7c6080",
+      "title": "loadtest-khutbah-tawakkul",
+      "topic": "Tawakkul"
+    },
+    {
+      "id": "6a1f508854319c26cf7c6082",
+      "title": "loadtest-khutbah-brotherhood",
+      "topic": "Brotherhood"
+    },
+    {
+      "id": "6a1f508854319c26cf7c6084",
+      "title": "loadtest-khutbah-forgiveness",
+      "topic": "Forgiveness"
+    },
+    {
+      "id": "6a1f508854319c26cf7c6086",
+      "title": "loadtest-khutbah-charity",
+      "topic": "Charity"
+    },
+    {
+      "id": "6a1f508854319c26cf7c6088",
+      "title": "loadtest-khutbah-knowledge",
+      "topic": "Knowledge"
+    },
+    {
+      "id": "6a1f508854319c26cf7c608a",
+      "title": "loadtest-khutbah-prayer",
+      "topic": "Prayer"
+    },
+    {
+      "id": "6a1f508854319c26cf7c608c",
+      "title": "loadtest-khutbah-family",
+      "topic": "Family"
+    },
+    {
+      "id": "6a1f508854319c26cf7c608e",
+      "title": "loadtest-khutbah-community",
+      "topic": "Community"
+    }
+  ]
+}

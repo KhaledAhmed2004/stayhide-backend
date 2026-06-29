@@ -1,0 +1,126 @@
+{
+  "adminUsers": [
+    {
+      "id": "6a20a7e2dc009fb322aba328",
+      "email": "loadtest-users-admin-0@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2UyZGMwMDlmYjMyMmFiYTMyOCIsInJvbGUiOiJTVVBFUl9BRE1JTiIsImVtYWlsIjoibG9hZHRlc3QtdXNlcnMtYWRtaW4tMEB0ZXN0LmNvbSIsInRva2VuVmVyc2lvbiI6MCwiaWF0IjoxNzgwNTI1MDI5LCJleHAiOjE3ODA2MTE0Mjl9.t8_RNBvGp5ns_11m6RCim6Q-Hv42_zMMyfT1Jl3O7w0"
+    },
+    {
+      "id": "6a20a7e2dc009fb322aba332",
+      "email": "loadtest-users-admin-1@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2UyZGMwMDlmYjMyMmFiYTMzMiIsInJvbGUiOiJTVVBFUl9BRE1JTiIsImVtYWlsIjoibG9hZHRlc3QtdXNlcnMtYWRtaW4tMUB0ZXN0LmNvbSIsInRva2VuVmVyc2lvbiI6MCwiaWF0IjoxNzgwNTI1MDI5LCJleHAiOjE3ODA2MTE0Mjl9.6__lW_Vo5YjuJZUnI8Qt2ZHKlKWMiOCPQD1UDzquXKc"
+    }
+  ],
+  "regularUsers": [
+    {
+      "id": "6a20a7e3dc009fb322aba334",
+      "email": "loadtest-users-brother-0@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2UzZGMwMDlmYjMyMmFiYTMzNCIsInJvbGUiOiJCUk9USEVSIiwiZW1haWwiOiJsb2FkdGVzdC11c2Vycy1icm90aGVyLTBAdGVzdC5jb20iLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTc4MDUyNTAyOSwiZXhwIjoxNzgwNjExNDI5fQ.yeFYbekChjY2vLA72BFCiDZ46x2wx8oVJo72IUi3C-4",
+      "role": "BROTHER"
+    },
+    {
+      "id": "6a20a7e3dc009fb322aba336",
+      "email": "loadtest-users-brother-1@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2UzZGMwMDlmYjMyMmFiYTMzNiIsInJvbGUiOiJCUk9USEVSIiwiZW1haWwiOiJsb2FkdGVzdC11c2Vycy1icm90aGVyLTFAdGVzdC5jb20iLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTc4MDUyNTAyOSwiZXhwIjoxNzgwNjExNDI5fQ.eFR7-P9VutwZbGNCtNRPm5L3rEwWaQ-GXJjDai2hYRE",
+      "role": "BROTHER"
+    },
+    {
+      "id": "6a20a7e3dc009fb322aba338",
+      "email": "loadtest-users-brother-2@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2UzZGMwMDlmYjMyMmFiYTMzOCIsInJvbGUiOiJCUk9USEVSIiwiZW1haWwiOiJsb2FkdGVzdC11c2Vycy1icm90aGVyLTJAdGVzdC5jb20iLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTc4MDUyNTAyOSwiZXhwIjoxNzgwNjExNDI5fQ.gdHVB-HntG_bVNQRTX_pv75E2hpL5EKPZ4Qaf_U7ZZ8",
+      "role": "BROTHER"
+    },
+    {
+      "id": "6a20a7e3dc009fb322aba33a",
+      "email": "loadtest-users-brother-3@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2UzZGMwMDlmYjMyMmFiYTMzYSIsInJvbGUiOiJCUk9USEVSIiwiZW1haWwiOiJsb2FkdGVzdC11c2Vycy1icm90aGVyLTNAdGVzdC5jb20iLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTc4MDUyNTAyOSwiZXhwIjoxNzgwNjExNDI5fQ.uoGRQrZAzPQEKGKYCo8iZvRfHTBk9574Ov9hic3yH_Q",
+      "role": "BROTHER"
+    },
+    {
+      "id": "6a20a7e3dc009fb322aba33c",
+      "email": "loadtest-users-brother-4@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2UzZGMwMDlmYjMyMmFiYTMzYyIsInJvbGUiOiJCUk9USEVSIiwiZW1haWwiOiJsb2FkdGVzdC11c2Vycy1icm90aGVyLTRAdGVzdC5jb20iLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTc4MDUyNTAyOSwiZXhwIjoxNzgwNjExNDI5fQ.rfwCPfFEt5LzMDYl8NLytqxU8l0t-bNFNSNmTOUdwzQ",
+      "role": "BROTHER"
+    },
+    {
+      "id": "6a20a7e4dc009fb322aba33e",
+      "email": "loadtest-users-sister-0@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2U0ZGMwMDlmYjMyMmFiYTMzZSIsInJvbGUiOiJTSVNURVIiLCJlbWFpbCI6ImxvYWR0ZXN0LXVzZXJzLXNpc3Rlci0wQHRlc3QuY29tIiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3ODA1MjUwMjksImV4cCI6MTc4MDYxMTQyOX0.ixuQ_sdbIaIzoQY5pdm9sQBkVuWjiVWZH16mLcngV90",
+      "role": "SISTER"
+    },
+    {
+      "id": "6a20a7e4dc009fb322aba340",
+      "email": "loadtest-users-sister-1@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2U0ZGMwMDlmYjMyMmFiYTM0MCIsInJvbGUiOiJTSVNURVIiLCJlbWFpbCI6ImxvYWR0ZXN0LXVzZXJzLXNpc3Rlci0xQHRlc3QuY29tIiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3ODA1MjUwMjksImV4cCI6MTc4MDYxMTQyOX0.AoumOAVrPluW9_EbEfAqGkrB96dWwL0WTatDfYLFUxA",
+      "role": "SISTER"
+    },
+    {
+      "id": "6a20a7e4dc009fb322aba342",
+      "email": "loadtest-users-sister-2@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2U0ZGMwMDlmYjMyMmFiYTM0MiIsInJvbGUiOiJTSVNURVIiLCJlbWFpbCI6ImxvYWR0ZXN0LXVzZXJzLXNpc3Rlci0yQHRlc3QuY29tIiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3ODA1MjUwMjksImV4cCI6MTc4MDYxMTQyOX0.LFIqf1INk7IShpAKJN8dZCcanl__HvIO19lyGIQ6bns",
+      "role": "SISTER"
+    },
+    {
+      "id": "6a20a7e4dc009fb322aba344",
+      "email": "loadtest-users-sister-3@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2U0ZGMwMDlmYjMyMmFiYTM0NCIsInJvbGUiOiJTSVNURVIiLCJlbWFpbCI6ImxvYWR0ZXN0LXVzZXJzLXNpc3Rlci0zQHRlc3QuY29tIiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3ODA1MjUwMjksImV4cCI6MTc4MDYxMTQyOX0.6_YeoCl73VVe1zXXSJ-3Y3TBas3IZS0fOLS5UOmfW5I",
+      "role": "SISTER"
+    },
+    {
+      "id": "6a20a7e5dc009fb322aba346",
+      "email": "loadtest-users-sister-4@test.com",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMjBhN2U1ZGMwMDlmYjMyMmFiYTM0NiIsInJvbGUiOiJTSVNURVIiLCJlbWFpbCI6ImxvYWR0ZXN0LXVzZXJzLXNpc3Rlci00QHRlc3QuY29tIiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3ODA1MjUwMjksImV4cCI6MTc4MDYxMTQyOX0.sjuspk5dj2n_4owJZhu3BkiL2PlaWECXJSaNPbHFYRo",
+      "role": "SISTER"
+    }
+  ],
+  "profileData": [
+    {
+      "userId": "6a20a7e2dc009fb322aba328",
+      "name": "Load Test Users Admin 0"
+    },
+    {
+      "userId": "6a20a7e2dc009fb322aba332",
+      "name": "Load Test Users Admin 1"
+    },
+    {
+      "userId": "6a20a7e3dc009fb322aba334",
+      "name": "Load Test Users Brother 0"
+    },
+    {
+      "userId": "6a20a7e3dc009fb322aba336",
+      "name": "Load Test Users Brother 1"
+    },
+    {
+      "userId": "6a20a7e3dc009fb322aba338",
+      "name": "Load Test Users Brother 2"
+    },
+    {
+      "userId": "6a20a7e3dc009fb322aba33a",
+      "name": "Load Test Users Brother 3"
+    },
+    {
+      "userId": "6a20a7e3dc009fb322aba33c",
+      "name": "Load Test Users Brother 4"
+    },
+    {
+      "userId": "6a20a7e4dc009fb322aba33e",
+      "name": "Load Test Users Sister 0"
+    },
+    {
+      "userId": "6a20a7e4dc009fb322aba340",
+      "name": "Load Test Users Sister 1"
+    },
+    {
+      "userId": "6a20a7e4dc009fb322aba342",
+      "name": "Load Test Users Sister 2"
+    },
+    {
+      "userId": "6a20a7e4dc009fb322aba344",
+      "name": "Load Test Users Sister 3"
+    },
+    {
+      "userId": "6a20a7e5dc009fb322aba346",
+      "name": "Load Test Users Sister 4"
+    }
+  ]
+}

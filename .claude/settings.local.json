@@ -1,0 +1,48 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run dev:*)",
+      "Bash(timeout 8 bash:*)",
+      "Bash(curl:*)",
+      "Bash(/dev/null)",
+      "Bash(node scripts/postman/generate-all.js:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill //F //PID 40232)",
+      "Bash(timeout 3 bash:*)",
+      "Bash(node scripts/postman/analyze-routes.js:*)",
+      "Bash(node scripts/postman/generate-tests.js:*)",
+      "Bash(npm run compile:*)",
+      "Bash(node scripts/schema-diagram-generator/schema-diagram-generator.js:*)",
+      "Bash(cat:*)",
+      "Bash(time curl:*)",
+      "Bash(find \"D:/web projects/office-sta/re-fector/tbsosick/.trae\" \"D:/web projects/office-sta/re-fector/tbsosick/.agent\" \"D:/web projects/office-sta/re-fector/tbsosick/.claude\" -type f -exec wc -l {} +)",
+      "Bash(wc -l \"D:/web projects/office-sta/re-fector/tbsosick/.agent/workflows/\"*.md)",
+      "Bash(mv \"D:/web projects/office-sta/re-fector/tbsosick/.agent/workflows/\"*.md \"D:/web projects/office-sta/re-fector/tbsosick/.trae/workflows/\")",
+      "Bash(mv \"D:/web projects/office-sta/re-fector/tbsosick/.claude/rules/codebase-blueprint.md\" \"D:/web projects/office-sta/re-fector/tbsosick/.trae/templates/codebase-blueprint.md\")",
+      "WebFetch(domain:github.com)",
+      "Bash(uv --version)",
+      "Bash('C:\\\\Users\\\\khaled\\\\AppData\\\\Local\\\\Packages\\\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\\\LocalCache\\\\local-packages\\\\Python313\\\\Scripts\\\\code-review-graph.exe' build:*)",
+      "Bash('C:\\\\Users\\\\khaled\\\\AppData\\\\Local\\\\Packages\\\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\\\LocalCache\\\\local-packages\\\\Python313\\\\Scripts\\\\code-review-graph.exe' install:*)",
+      "Bash(\"C:\\\\Users\\\\khaled\\\\AppData\\\\Local\\\\Packages\\\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\\\LocalCache\\\\local-packages\\\\Python313\\\\Scripts\\\\code-review-graph.exe\" build:*)",
+      "Bash(\"C:\\\\Users\\\\khaled\\\\AppData\\\\Local\\\\Packages\\\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\\\LocalCache\\\\local-packages\\\\Python313\\\\Scripts\\\\code-review-graph.exe\" install:*)",
+      "WebSearch",
+      "WebFetch(domain:docs.stripe.com)",
+      "WebFetch(domain:www.revenuecat.com)",
+      "WebFetch(domain:adapty.io)",
+      "Bash(rm -rf src/app/modules/payment)",
+      "Bash(rm -f src/config/stripe.ts)",
+      "Bash(rm -f src/app/logging/patchStripe.ts)",
+      "Bash(npm uninstall:*)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "code-review-graph"
+  ]
+}

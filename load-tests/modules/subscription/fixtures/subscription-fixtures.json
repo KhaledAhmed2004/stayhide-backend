@@ -1,0 +1,6 @@
+{
+  "subscriptions": [
+    { "id": "placeholder-sub-1", "userId": "placeholder-user-1", "plan": "free", "status": "active" }
+  ],
+  "freeUsers": [{ "id": "placeholder-user-1", "email": "loadtest-free@test.com", "token": "placeholder-token" }]
+}

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database ER Diagram</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background-color: #f4f4f9; }
+        h1 { text-align: center; color: #333; margin-bottom: 30px; }
+        .mermaid-wrapper { display: flex; justify-content: center; margin-top: 20px; overflow-x: auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .footer { text-align: center; margin-top: 40px; color: #777; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <h1>Database ER Diagram</h1>
+    <div class="mermaid-wrapper">
+      <div class="mermaid">
+erDiagram
+  ChatSession {
+    ObjectId user
+    String title
+    Array messages
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  ChatSession }|--|| User : "user"
+  ResetToken {
+    ObjectId user
+    String token
+    Date expireAt
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  ResetToken }|--|| User : "user"
+  Chat {
+    Array participants
+    Embedded lastMessage
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  Chat }|--|{ User : "participants"
+  DeviceToken {
+    ObjectId user
+    String token
+    String tokenHash
+    String tokenPrefix
+    String platform
+    String appVersion
+    Date firstSeenAt
+    Date lastSeenAt
+    String lastSeenIpHash
+    String lastSeenCity
+    String userAgent
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  DeviceToken }|--|| User : "user"
+  DietLog {
+    ObjectId user
+    String date
+    String mealType
+    String name
+    String note
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  DietLog }|--|| User : "user"
+  LegalPage {
+    String slug
+    String title
+    String content
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  MedicationLog {
+    ObjectId user
+    ObjectId medication
+    String dateString
+    String scheduledTime
+    String status
+    String source
+    Date takenAt
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  MedicationLog }|--|| User : "user"
+  MedicationLog }|--|| Medication : "medication"
+  Medication {
+    ObjectId user
+    String name
+    Number dosage_amount
+    String dosage_unit
+    String type
+    String notes
+    Date startDate
+    Date endDate
+    Boolean isOngoing
+    String frequency_frequencyType
+    Number frequency_interval
+    String frequency_intervalUnit
+    Array frequency_daysOfWeek
+    Array dosingTimes
+    Boolean reminder_enabled
+    Number reminder_minutesBefore
+    Number inventory_totalQuantity
+    Number inventory_remainingQuantity
+    Number inventory_quantityPerDose
+    String status
+    Date archivedAt
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  Medication }|--|| User : "user"
+  Message {
+    ObjectId chatId
+    ObjectId sender
+    String text
+    String type
+    Array attachments
+    Array readBy
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  Message }|--|| Chat : "chatId"
+  Message }|--|| User : "sender"
+  Message }|--|{ User : "readBy"
+  Notification {
+    ObjectId receiver
+    String type
+    String title
+    String text
+    Number schemaVersion
+    String resourceType
+    String resourceId
+    String link_label
+    String link_url
+    Mixed metadata
+    Boolean isRead
+    Date readAt
+    String icon
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  Notification }|--|| User : "receiver"
+  SentNotification {
+    String title
+    String text
+    String audience
+    Number recipientCount
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  PendingEmail {
+    String kind
+    String to
+    String subject
+    String html
+    String status
+    Number attempts
+    Number maxAttempts
+    Date nextAttemptAt
+    String lastError
+    String workerId
+    Date leaseExpiresAt
+    String messageId
+    Date sentAt
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  PendingWebhook {
+    String externalPurchaseId
+    String provider
+    Mixed payload
+    Date receivedAt
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  ProcessedWebhook {
+    String webhookId
+    String provider
+    Date processedAt
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  SubscriptionEvent {
+    ObjectId userId
+    ObjectId subscriptionId
+    String eventType
+    String previousPlan
+    String nextPlan
+    String previousStatus
+    String nextStatus
+    String platform
+    String productId
+    String externalTransactionId
+    Mixed metadata
+    Date occurredAt
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  SubscriptionEvent }|--|| User : "userId"
+  SubscriptionEvent }|--|| Subscription : "subscriptionId"
+  Subscription {
+    ObjectId userId
+    String plan
+    String status
+    String platform
+    String environment
+    String productId
+    Boolean autoRenewing
+    String appleOriginalTransactionId
+    String appleLatestTransactionId
+    String googlePurchaseToken
+    String googleOrderId
+    Date startedAt
+    Date currentPeriodEnd
+    Date gracePeriodEndsAt
+    Date canceledAt
+    Mixed metadata
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  Subscription }|--|| User : "userId"
+  SupportTicket {
+    String ticketNumber
+    ObjectId userId
+    String subject
+    String category
+    String status
+    String priority
+    ObjectId assignedAdminId
+    Date lastReplyAt
+    String lastReplyBy
+    Number messagesCount
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  SupportTicket }|--|| User : "userId"
+  SupportTicket }|--|| User : "assignedAdminId"
+  TicketMessage {
+    ObjectId ticketId
+    String senderType
+    ObjectId senderId
+    String message
+    Array attachments
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  TicketMessage }|--|| SupportTicket : "ticketId"
+  TicketMessage }|--|| User : "senderId"
+  SymptomLog {
+    ObjectId user
+    String date
+    Number hotFlashes_count
+    Number hotFlashes_severity
+    Number nightSweats_severity
+    String mood_value
+    Number sleep_hours
+    Number sleep_quality
+    Number brainFog_severity
+    Number jointPain_severity
+    Number fatigue_severity
+    Number anxiety_severity
+    String additionalNotes
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+  SymptomLog }|--|| User : "user"
+  User {
+    String name
+    String role
+    String email
+    String password
+    Array passwordHistory
+    Date dateOfBirth
+    String profileImage
+    String status
+    Boolean isVerified
+    Number tokenVersion
+    String googleId
+    String appleId
+    String subscriptionTier
+    String subscriptionStatus
+    Date subscriptionExpiryDate
+    String appleOriginalTransactionId
+    String googlePurchaseToken
+    Embedded authentication
+    Embedded emailChange
+    Date deletedAt
+    Date recoveryDeadline
+    Boolean isDailySymptomReminderEnabled
+    String timezone
+    ObjectId _id
+    Date createdAt
+    Date updatedAt
+  }
+
+
+      </div>
+    </div>
+    
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+</html>

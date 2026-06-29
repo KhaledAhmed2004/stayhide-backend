@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MosqueRoutes = void 0;
+const express_1 = __importDefault(require("express"));
+const user_1 = require("../../../enums/user");
+const auth_1 = __importDefault(require("../../middlewares/auth"));
+const fileHandler_1 = require("../../middlewares/fileHandler");
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const mosque_controller_1 = require("./mosque.controller");
+const mosque_validation_1 = require("./mosque.validation");
+const router = express_1.default.Router();
+router.get('/', mosque_controller_1.MosqueController.getAllMosques);
+router.get('/:mosqueId', mosque_controller_1.MosqueController.getSingleMosque);
+router.post('/', (0, auth_1.default)(user_1.USER_ROLES.SUPER_ADMIN), (0, fileHandler_1.fileHandler)([{ name: 'image', maxCount: 1 }]), (0, validateRequest_1.default)(mosque_validation_1.MosqueValidation.createMosqueZodSchema), mosque_controller_1.MosqueController.createMosque);
+router.patch('/:mosqueId', (0, auth_1.default)(user_1.USER_ROLES.SUPER_ADMIN), (0, fileHandler_1.fileHandler)([{ name: 'image', maxCount: 1 }]), (0, validateRequest_1.default)(mosque_validation_1.MosqueValidation.updateMosqueZodSchema), mosque_controller_1.MosqueController.updateMosque);
+router.delete('/:mosqueId', (0, auth_1.default)(user_1.USER_ROLES.SUPER_ADMIN), mosque_controller_1.MosqueController.deleteMosque);
+exports.MosqueRoutes = router;

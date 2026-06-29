@@ -1,0 +1,89 @@
+
+services:
+  # --- MongoDB Service (Replica Set rs0) ---
+  # Replica set is required for multi-document transactions used by modules
+  # like support-ticket, connections, chat, etc.
+  mongodb:
+    image: mongo:latest
+    container_name: okjt100-mongodb
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./docker/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - okjt100-network
+    healthcheck:
+      test: >
+        mongosh --quiet --eval
+        "try { rs.status().ok } catch(e) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongodb:27017'}]}).ok }"
+        | grep -q 1
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  # --- Redis Service ---
+  redis:
+    image: redis:alpine
+    container_name: okjt100-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - okjt100-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- Backend API Service ---
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: okjt100-api
+    restart: always
+    # ports:
+    #   - "5002:5002" # Baire theke port block kore rakhlam, shudhu Nginx diye access hobe
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=mongodb://mongodb:27017/okjt100?replicaSet=rs0
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - okjt100-network
+
+  # --- Nginx Reverse Proxy ---
+  nginx:
+    image: nginx:alpine
+    container_name: okjt100-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      # Production-e SSL er jonno certbot er volumes lagbe
+      # - ./certbot/conf:/etc/letsencrypt
+      # - ./certbot/www:/var/www/certbot
+    depends_on:
+      - api
+    networks:
+      - okjt100-network
+
+networks:
+  okjt100-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local

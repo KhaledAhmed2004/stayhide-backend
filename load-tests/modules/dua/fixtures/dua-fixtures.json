@@ -1,0 +1,54 @@
+{
+  "duas": [
+    {
+      "id": "6a20832a738e074d70756460",
+      "title": "loadtest-dua-morning-protection",
+      "category": "Fajr"
+    },
+    {
+      "id": "6a20832a738e074d70756461",
+      "title": "loadtest-dua-after-fajr",
+      "category": "Fajr"
+    },
+    {
+      "id": "6a20832a738e074d70756462",
+      "title": "loadtest-dua-midday-guidance",
+      "category": "Zuhr"
+    },
+    {
+      "id": "6a20832a738e074d70756463",
+      "title": "loadtest-dua-after-zuhr",
+      "category": "Zuhr"
+    },
+    {
+      "id": "6a20832a738e074d70756464",
+      "title": "loadtest-dua-afternoon-patience",
+      "category": "Asr"
+    },
+    {
+      "id": "6a20832a738e074d70756465",
+      "title": "loadtest-dua-after-asr",
+      "category": "Asr"
+    },
+    {
+      "id": "6a20832a738e074d70756466",
+      "title": "loadtest-dua-evening-gratitude",
+      "category": "Maghrib"
+    },
+    {
+      "id": "6a20832a738e074d70756467",
+      "title": "loadtest-dua-after-maghrib",
+      "category": "Maghrib"
+    },
+    {
+      "id": "6a20832a738e074d70756468",
+      "title": "loadtest-dua-night-peace",
+      "category": "Isha"
+    },
+    {
+      "id": "6a20832a738e074d70756469",
+      "title": "loadtest-dua-after-isha",
+      "category": "Isha"
+    }
+  ]
+}

@@ -1,0 +1,458 @@
+{
+  "notifications": [
+    {
+      "notificationId": "6a20a30ac932d1daac55c7d4",
+      "userId": "6a14b4990d1783162d4786f8",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7d6",
+      "userId": "6a14b4990d1783162d4786f8",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7d8",
+      "userId": "6a14b4990d1783162d4786f8",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7da",
+      "userId": "6a14b4990d1783162d4786f8",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7dc",
+      "userId": "6a14b4990d1783162d4786f8",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7de",
+      "userId": "6a14b4990d1783162d4786fa",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7e0",
+      "userId": "6a14b4990d1783162d4786fa",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7e2",
+      "userId": "6a14b4990d1783162d4786fa",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7e4",
+      "userId": "6a14b4990d1783162d4786fa",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7e6",
+      "userId": "6a14b4990d1783162d4786fa",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7e8",
+      "userId": "6a14b4990d1783162d4786fc",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7ea",
+      "userId": "6a14b4990d1783162d4786fc",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7ec",
+      "userId": "6a14b4990d1783162d4786fc",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7ee",
+      "userId": "6a14b4990d1783162d4786fc",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7f0",
+      "userId": "6a14b4990d1783162d4786fc",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7f2",
+      "userId": "6a14b49a0d1783162d4786fe",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7f4",
+      "userId": "6a14b49a0d1783162d4786fe",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7f6",
+      "userId": "6a14b49a0d1783162d4786fe",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7f8",
+      "userId": "6a14b49a0d1783162d4786fe",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7fa",
+      "userId": "6a14b49a0d1783162d4786fe",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7fc",
+      "userId": "6a14b49a0d1783162d478700",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c7fe",
+      "userId": "6a14b49a0d1783162d478700",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c800",
+      "userId": "6a14b49a0d1783162d478700",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c802",
+      "userId": "6a14b49a0d1783162d478700",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c804",
+      "userId": "6a14b49a0d1783162d478700",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c806",
+      "userId": "6a14b49a0d1783162d478702",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c808",
+      "userId": "6a14b49a0d1783162d478702",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c80a",
+      "userId": "6a14b49a0d1783162d478702",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c80c",
+      "userId": "6a14b49a0d1783162d478702",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c80e",
+      "userId": "6a14b49a0d1783162d478702",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c810",
+      "userId": "6a14b49a0d1783162d478704",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c812",
+      "userId": "6a14b49a0d1783162d478704",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c814",
+      "userId": "6a14b49a0d1783162d478704",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c816",
+      "userId": "6a14b49a0d1783162d478704",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c818",
+      "userId": "6a14b49a0d1783162d478704",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c81a",
+      "userId": "6a14b49b0d1783162d478706",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c81c",
+      "userId": "6a14b49b0d1783162d478706",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c81e",
+      "userId": "6a14b49b0d1783162d478706",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c820",
+      "userId": "6a14b49b0d1783162d478706",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c822",
+      "userId": "6a14b49b0d1783162d478706",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c824",
+      "userId": "6a14b49b0d1783162d478708",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c826",
+      "userId": "6a14b49b0d1783162d478708",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c828",
+      "userId": "6a14b49b0d1783162d478708",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c82a",
+      "userId": "6a14b49b0d1783162d478708",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c82c",
+      "userId": "6a14b49b0d1783162d478708",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c82e",
+      "userId": "6a14b49b0d1783162d47870a",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c830",
+      "userId": "6a14b49b0d1783162d47870a",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c832",
+      "userId": "6a14b49b0d1783162d47870a",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c834",
+      "userId": "6a14b49b0d1783162d47870a",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c836",
+      "userId": "6a14b49b0d1783162d47870a",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c838",
+      "userId": "6a14b4a70d1783162d47875c",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c83a",
+      "userId": "6a14b4a70d1783162d47875c",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c83c",
+      "userId": "6a14b4a70d1783162d47875c",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c83e",
+      "userId": "6a14b4a70d1783162d47875c",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c840",
+      "userId": "6a14b4a70d1783162d47875c",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c842",
+      "userId": "6a14b4a70d1783162d47875e",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c844",
+      "userId": "6a14b4a70d1783162d47875e",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c846",
+      "userId": "6a14b4a70d1783162d47875e",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c848",
+      "userId": "6a14b4a70d1783162d47875e",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c84a",
+      "userId": "6a14b4a70d1783162d47875e",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c84c",
+      "userId": "6a14b4a70d1783162d478760",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c84e",
+      "userId": "6a14b4a70d1783162d478760",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c850",
+      "userId": "6a14b4a70d1783162d478760",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c852",
+      "userId": "6a14b4a70d1783162d478760",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c854",
+      "userId": "6a14b4a70d1783162d478760",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c856",
+      "userId": "6a14b4a70d1783162d478762",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c858",
+      "userId": "6a14b4a70d1783162d478762",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c85a",
+      "userId": "6a14b4a70d1783162d478762",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c85c",
+      "userId": "6a14b4a70d1783162d478762",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c85e",
+      "userId": "6a14b4a70d1783162d478762",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c860",
+      "userId": "6a14b4a80d1783162d478764",
+      "type": "ADMIN",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c862",
+      "userId": "6a14b4a80d1783162d478764",
+      "type": "SYSTEM",
+      "isRead": true
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c864",
+      "userId": "6a14b4a80d1783162d478764",
+      "type": "CONNECTION_REQUEST",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c866",
+      "userId": "6a14b4a80d1783162d478764",
+      "type": "CONNECTION_ACCEPTED",
+      "isRead": false
+    },
+    {
+      "notificationId": "6a20a30ac932d1daac55c868",
+      "userId": "6a14b4a80d1783162d478764",
+      "type": "NEW_MESSAGE",
+      "isRead": false
+    }
+  ],
+  "broadcastIds": [
+    "6a20a30ac932d1daac55c86a",
+    "6a20a30ac932d1daac55c87e"
+  ]
+}

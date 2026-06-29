@@ -1,0 +1,82 @@
+{
+  "mosques": [
+    {
+      "id": "6a1f1797f2b990d62423591a",
+      "name": "Loadtest Masjid Al-Noor",
+      "area": "Dhaka",
+      "latitude": 23.8103,
+      "longitude": 90.4125
+    },
+    {
+      "id": "6a1f1797f2b990d62423591b",
+      "name": "Loadtest Masjid Al-Rahman",
+      "area": "Chittagong",
+      "latitude": 22.3569,
+      "longitude": 91.8348
+    },
+    {
+      "id": "6a1f1797f2b990d62423591c",
+      "name": "Loadtest Masjid Al-Amin",
+      "area": "Sylhet",
+      "latitude": 24.8949,
+      "longitude": 91.8681
+    },
+    {
+      "id": "6a1f1797f2b990d62423591d",
+      "name": "Loadtest Masjid Al-Taqwa",
+      "area": "Rajshahi",
+      "latitude": 24.3745,
+      "longitude": 88.5635
+    },
+    {
+      "id": "6a1f1797f2b990d62423591e",
+      "name": "Loadtest Masjid Al-Furqan",
+      "area": "Khulna",
+      "latitude": 22.8456,
+      "longitude": 89.5644
+    },
+    {
+      "id": "6a1f1797f2b990d62423591f",
+      "name": "Loadtest Central Mosque Dhaka",
+      "area": "Dhaka",
+      "latitude": 23.7937,
+      "longitude": 90.4152
+    },
+    {
+      "id": "6a1f1797f2b990d624235920",
+      "name": "Loadtest Masjid Al-Barakah",
+      "area": "Cumilla",
+      "latitude": 23.4607,
+      "longitude": 91.1896
+    },
+    {
+      "id": "6a1f1797f2b990d624235921",
+      "name": "Loadtest Masjid Al-Hidayah",
+      "area": "Bogura",
+      "latitude": 24.85,
+      "longitude": 89.3673
+    },
+    {
+      "id": "6a1f1797f2b990d624235922",
+      "name": "Loadtest Masjid Al-Ikhlas",
+      "area": "Mymensingh",
+      "latitude": 24.7471,
+      "longitude": 90.4018
+    },
+    {
+      "id": "6a1f1797f2b990d624235923",
+      "name": "Loadtest Masjid Baitul Mukarram",
+      "area": "Dhaka",
+      "latitude": 23.7275,
+      "longitude": 90.4074
+    }
+  ],
+  "dhakaCoords": {
+    "latitude": 23.8103,
+    "longitude": 90.4125
+  },
+  "chittagongCoords": {
+    "latitude": 22.3569,
+    "longitude": 91.8348
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "skill-optimizer",
+  "owner": "jnlei",
+  "repo": "claude-tools",
+  "path": "plugins/bundles/next-project-starter/skills/skill-optimizer",
+  "branch": "main",
+  "sha": "8b6e86825d6f184bda361f54aa80f387a85f1621",
+  "source": "manual"
+}

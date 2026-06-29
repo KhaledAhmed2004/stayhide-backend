@@ -1,0 +1,34 @@
+{
+  "pendingEmails": [
+    {
+      "id": "6a20b08903535f7851ee310b",
+      "to": "loadtest-pending-email-0@test.com",
+      "subject": "loadtest-registration_otp-subject-0",
+      "status": "PENDING"
+    },
+    {
+      "id": "6a20b08903535f7851ee310f",
+      "to": "loadtest-pending-email-1@test.com",
+      "subject": "loadtest-forgot_password_otp-subject-1",
+      "status": "PENDING"
+    },
+    {
+      "id": "6a20b08903535f7851ee3111",
+      "to": "loadtest-pending-email-2@test.com",
+      "subject": "loadtest-email_change_otp-subject-2",
+      "status": "PROCESSING"
+    },
+    {
+      "id": "6a20b08903535f7851ee3113",
+      "to": "loadtest-pending-email-3@test.com",
+      "subject": "loadtest-email_change_notification-subject-3",
+      "status": "PENDING"
+    },
+    {
+      "id": "6a20b08903535f7851ee3115",
+      "to": "loadtest-pending-email-4@test.com",
+      "subject": "loadtest-account_rejected_reverify-subject-4",
+      "status": "DEAD"
+    }
+  ]
+}

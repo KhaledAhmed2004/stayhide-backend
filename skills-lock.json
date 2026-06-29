@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "skills": {
+    "api-design": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "cd8dad9f9cf4eae8632a3969cd12f4e9ad1f9d58a9ed607c2d9ce51876d6dd13"
+    },
+    "code-reviewer": {
+      "source": "google-gemini/gemini-cli",
+      "sourceType": "github",
+      "computedHash": "270f0dd1d4c15a798bad5253a309cdc2056fe5322f99ba06ca22ce50581adc02"
+    },
+    "nosql-database-design": {
+      "source": "aj-geddes/useful-ai-prompts",
+      "sourceType": "github",
+      "computedHash": "9c4a655cbf2777ece269b5cd19e23985f343958480de18af13bb36ccceccb570"
+    },
+    "typescript": {
+      "source": "lobehub/lobe-chat",
+      "sourceType": "github",
+      "computedHash": "88d247797eef607f1ecf542fb8175a81118fbb7a88a1e5dc23f7a1101f245a3f"
+    }
+  }
+}

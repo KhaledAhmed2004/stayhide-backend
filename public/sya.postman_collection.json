@@ -1,0 +1,5672 @@
+{
+  "info": {
+    "name": "sya",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Automatically generated from API Inventory & Module Specs."
+  },
+  "item": [
+    {
+      "name": "🚀 Testing Guide & Docs",
+      "description": "\n## Welcome to sya API Testing Guide\n\nFollow these detailed steps to test APIs and Socket events:\n\n### 1. Setup & Auth (First Step)\n1.  **Login**: First, go to **Auth Module > 1.1 Login**.\n2.  **Auto-Token**: Successful login korle `accessToken` automatic collection variable-e save hoye jabe.\n3.  **Check**: Apni Collection-er **Variables** tab-e giye check korte paren token-ti set hoyeche kina.\n\n### 2. Standard API Testing\n- Protiti folder module onujayi organized.\n- Path variables (যেমন `:id`) thakle Postman-er **Params** tab-e value boshate hobe.\n\n### 3. Socket.IO Testing (Detailed Guide)\nPostman theke Socket test korar jonno nicher visual guide-ti follow koren:\n\n#### A. Connection Setup\n- Click **New** > **Socket.IO**.\n- **URL**: `http://localhost:5002` (Not `/api/v1`).\n- **Auth (Handshake)**:\n    - **Handshake** tab-e jan.\n    - **Auth** section-e **Auth Object** select koren.\n    - `token` key-te value `{{accessToken}}` boshie **Connect** koren.\n\n#### B. How to \"Listen\" (Receive events from server)\nServer theke real-time data receive korar jonno nicher steps follow koren:\n\n1.  **Events Tab**: Connection tab-er pashe thaka **Events** tab-e jan.\n2.  **Add Event**: `Add event` button-e click koren.\n3.  **Event Name**: `Event name` field-e nicher common event-gulo add koren (ekekti event-er jonno alada row):\n    - `USER_ONLINE`: Jokhon keu online ashe.\n    - `MESSAGE_RECEIVED`: Jokhon keu apnake message pathay.\n    - `TYPING_START`: Keu type kora shuru korle.\n    - `get-notification::{{userId}}`: Personal notifications-er jonno.\n4.  **Messages Pane**: Ekhon server theke oi event-ti asle niche **Messages** pane-e real-time JSON data dekhabe. \n    > **Note**: Ekhane kono JSON pathano lagbe na, shudhu event-er nam-ti add korlei Postman server theke asha data capture korbe.\n\n#### C. How to \"Emit\" (Send events to server)\n- Server-e data pathanor jonno **Message** tab-e jan.\n- **Event Name**: Jekhare event-er nam likhte hoy (যেমন: `JOIN_CHAT`).\n- **Payload**: Niche JSON format-e data-ti likhun:\n    ```json\n    { \"chatId\": \"664a1b2c3d4e5f6a7b8c9d0e\" }\n    ```\n- Click **Send**.\n\n### 🔌 Socket.IO Events Inventory & Guide\n\nJokhon apni Socket test korben, nicher table-ti follow koren bujhar jonno je konta apnake pathate hobe (Emit) ar konta server pathabe (Listen).\n\n| Event Name | Action Type | Direction | Payload Example | Step-by-Step Testing |\n|------------|-------------|-----------|-----------------|----------------------|\n| `JOIN_CHAT` | **EMITTING** (Send) | 📥 Client -> Server | `{ \"chatId\": \"66...\" }` | **Message** tab-e event name `JOIN_CHAT` likhun ebong payload JSON format-e diye **Send** koren. |\n| `LEAVE_CHAT` | **EMITTING** (Send) | 📥 Client -> Server | N/A | **Message** tab-e event name `LEAVE_CHAT` likhe JSON payload shoho **Send** koren. |\n| `JOIN_TICKET` | **EMITTING** (Send) | 📥 Client -> Server | N/A | **Message** tab-e event name `JOIN_TICKET` likhe JSON payload shoho **Send** koren. |\n| `LEAVE_TICKET` | **EMITTING** (Send) | 📥 Client -> Server | N/A | **Message** tab-e event name `LEAVE_TICKET` likhe JSON payload shoho **Send** koren. |\n| `TYPING_START` | **EMITTING** (Send) | 📥 Client -> Server | `{ \"chatId\": \"66...\" }` | **Message** tab theke emit koren typing shuru bujhate. |\n| `TYPING_STOP` | **EMITTING** (Send) | 📥 Client -> Server | N/A | **Message** tab-e event name `TYPING_STOP` likhe JSON payload shoho **Send** koren. |\n| `DELIVERED_ACK` | **EMITTING** (Send) | 📥 Client -> Server | N/A | **Message** tab-e event name `DELIVERED_ACK` likhe JSON payload shoho **Send** koren. |\n| `READ_ACK` | **EMITTING** (Send) | 📥 Client -> Server | N/A | **Message** tab-e event name `READ_ACK` likhe JSON payload shoho **Send** koren. |\n| `disconnect` | **EMITTING** (Send) | 📥 Client -> Server | N/A | **Message** tab-e event name `disconnect` likhe JSON payload shoho **Send** koren. |\n| `TYPING_START` | **LISTENING** (Receive) | 📤 Server -> Client | `{ \"chatId\": \"66...\" }` | **Events** tab-e `TYPING_START` add koren listening-er jonno. |\n| `TYPING_STOP` | **LISTENING** (Receive) | 📤 Server -> Client | N/A | **Events** tab-e `TYPING_STOP` nam-er ekta event add koren jate server theke response ashole apni **Messages** pane-e dekhte paren. |\n\n\n### 4. Common Testing Scenarios\n- **Chatting**:\n    1. Login koren.\n    2. Socket connect koren.\n    3. `JOIN_CHAT` emit koren chatId diye.\n    4. Onno user theke message pathale apni listener events-e sheta paben.\n    ",
+      "item": []
+    },
+    {
+      "name": "Auth Module",
+      "item": [
+        {
+          "name": "1.1 Login (Email + Password)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Standard email + password sign-in. Returns an access-token / refresh-token pair. The refresh token is also set as an `httpOnly` cookie so browser clients don't have to handle it in JS. Status checks happen at the service layer **before** password comparison so the user gets the right reason (suspended / rejected / unverified) instead of a generic 401.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\", // Required: Yes\n  \"password\": \"P@ssw0rd!\", // Required: Yes\n  \"deviceToken\": \"fcm-or-apns-token-optional\", // Required: No\n  \"platform\": \"ios\", // Required: No\n  \"appVersion\": \"1.0.0\", // Required: No\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.success && response.data && response.data.accessToken) {",
+                  "    pm.collectionVariables.set(\"accessToken\", response.data.accessToken);",
+                  "    console.log(\"accessToken has been set in collection variables\");",
+                  "}",
+                  "if (response.success && response.data && response.data.refreshToken) {",
+                  "    pm.collectionVariables.set(\"refreshToken\", response.data.refreshToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.2 Verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/verify-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify-otp"
+              ]
+            },
+            "description": "Single endpoint that handles **two distinct flows** based on the user's `isVerified` state at the moment of OTP submission:",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"otp\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.success && response.data && response.data.accessToken) {",
+                  "    pm.collectionVariables.set(\"accessToken\", response.data.accessToken);",
+                  "    console.log(\"accessToken has been set in collection variables\");",
+                  "}",
+                  "if (response.success && response.data && response.data.refreshToken) {",
+                  "    pm.collectionVariables.set(\"refreshToken\", response.data.refreshToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.3 Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/forgot-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "forgot-password"
+              ]
+            },
+            "description": "Initiates the password-reset flow by sending a 6-digit OTP to the user's email. Designed with **silent success** — the response is identical whether the email belongs to a real account or not. An attacker who pastes a list of emails into this endpoint cannot tell which ones are registered. The actual reset happens in two more steps: [02-verify-otp.md](./02-verify-otp.md) (issues a `resetToken`) → [04-reset-password.md](./04-reset-password.md) (commits the new password).",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\", // Required: Yes\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.4 Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "reset-password"
+              ]
+            },
+            "description": "Commits a new password using the `resetToken` issued by [02-verify-otp.md](./02-verify-otp.md). The token sits in the `Authorization` header (either as raw value or with `Bearer ` prefix — controller accepts both). On success: password is hashed, the user's `tokenVersion` is bumped (every JWT they hold becomes invalid — true global logout), the one-time `isResetPassword` flag is cleared, and every reset token tied to this user is deleted.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newPassword\": \"NewP@ssw0rd123!\", // Required: Yes\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.5 Refresh Token (with Reuse Detection)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/refresh-token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "refresh-token"
+              ]
+            },
+            "description": "Rotates a refresh token. Verifies the inbound refresh JWT, compares its embedded `tokenVersion` against the DB value (**reuse detection**), bumps the DB `tokenVersion`, and issues a fresh access + refresh pair. If a previously-rotated refresh token is replayed (typical attacker behavior with a stolen token after the legitimate client has already rotated), the version check fails and every JWT for the user is invalidated — the user must log in again.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.success && response.data && response.data.accessToken) {",
+                  "    pm.collectionVariables.set(\"accessToken\", response.data.accessToken);",
+                  "    console.log(\"accessToken has been set in collection variables\");",
+                  "}",
+                  "if (response.success && response.data && response.data.refreshToken) {",
+                  "    pm.collectionVariables.set(\"refreshToken\", response.data.refreshToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.6 Logout (Single Device)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Ends the **current device's** push session and clears the `refreshToken` browser cookie. Removes the supplied `deviceToken` from the user's `deviceTokens[]` array so the device stops receiving FCM/APNs notifications. **Does NOT bump `tokenVersion`** — the JWT itself remains valid until natural expiry (short-lived access token; refresh-token flow will continue to work on this device until the user logs back in elsewhere). To globally invalidate every session on every device, use [user/12-revoke-all-sessions.md](../user/12-revoke-all-sessions.md) (bumps `tokenVersion`).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deviceToken\": \"fcm-or-apns-token-of-this-device\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.7 Resend Verification OTP (Registration Flow)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/resend-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "resend-otp"
+              ]
+            },
+            "description": "Re-issues the 6-digit registration verification OTP that gets sent during account creation. **Only for the registration flow** — to obtain a fresh password-reset OTP, call [03-forgot-password.md](./03-forgot-password.md) again, which overwrites the existing OTP and invalidates prior reset tokens.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\", // Required: Yes\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.8 Social Login (Google / Apple)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/social-login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "social-login"
+              ]
+            },
+            "description": "Unified sign-in / sign-up via Google or Apple ID tokens. Verifies the provider-issued JWT cryptographically (Google: RSA against `googleAudience` array of iOS/Android/Web client IDs; Apple: RSA + nonce-hash match), then either logs an existing user in (matched strictly by `googleId` / `appleId`) or creates a new account. Refuses to auto-link a provider identity to an existing email-based account — that's an OWASP-flagged account-hijack vector. Returns the same `{ accessToken, refreshToken }` envelope as [01-login.md](./01-login.md).",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"provider\": \"google\", // Required: Yes\n  \"idToken\": \"eyJhbGciOiJSUzI1NiIs...\", // Required: Yes\n  \"nonce\": \"aB3xK9mP2qR7sL4nT6vY8wXcZ1uV5oM0jE\", // Required: Conditional\n  \"deviceToken\": \"fcm-token-optional\", // Required: No\n  \"platform\": \"ios\", // Required: No\n  \"appVersion\": \"1.4.0\", // Required: No\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.9 Change Password (Authenticated)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "For an already-logged-in user who wants to change their password without going through the email OTP flow. Validates the current password (defense-in-depth against stolen-token mutation), enforces the password-strength regex on the new password, hashes and stores it, and **bumps `tokenVersion`** — every JWT the user holds becomes invalid on the next request (true global logout). The client must re-authenticate after success.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"OldP@ssw0rd!\", // Required: Yes\n  \"newPassword\": \"NewP@ssw0rd123!\", // Required: Yes\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.10 Restore Soft-Deleted Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/restore-account",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "restore-account"
+              ]
+            },
+            "description": "Restores an account that was soft-deleted via [user/06-delete-account.md](../user/06-delete-account.md) and is still inside its 30-day recovery window. The endpoint takes `email` + `password`, validates both, flips `status: DELETED -> ACTIVE`, clears `deletedAt` / `recoveryDeadline`, bumps `tokenVersion` (so any leftover JWTs from before deletion stay invalid), and issues a fresh access + refresh token pair — same response shape as `POST /auth/login`.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\", // Required: Yes\n  \"password\": \"<the user's current password>\", // Required: Yes\n  \"deviceToken\": \"fcm-or-apns-token-optional\", // Required: No\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Module",
+      "item": [
+        {
+          "name": "2.1 Create User (Registration / Admin Create)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ]
+            },
+            "description": "Single endpoint for both **public mobile registration** (`BROTHER` / `SISTER`) and **administrative account creation** (`SUPER_ADMIN`). The difference is detected at the controller level: if a valid `Bearer` token belonging to a `SUPER_ADMIN` is supplied, the request is treated as admin creation; otherwise it is public registration. There is **no `auth` middleware** on this route — the JWT is inspected inline. Any token error silently falls back to public registration.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Jane Doe",
+                  "type": "text",
+                  "description": "The user's full legal name as it should appear on their profile."
+                },
+                {
+                  "key": "email",
+                  "value": "jane@example.com",
+                  "type": "text",
+                  "description": "Primary email address. Must be globally unique and valid."
+                },
+                {
+                  "key": "password",
+                  "value": "StrongPassword123!",
+                  "type": "text",
+                  "description": "Account password. Must be 8+ chars with mixed case, digit, and special char."
+                },
+                {
+                  "key": "role",
+                  "value": "SISTER",
+                  "type": "text",
+                  "description": "User role. Limited to `BROTHER` or `SISTER` during public registration."
+                },
+                {
+                  "key": "revertDate",
+                  "value": "2024-05-11T00:00:00.000Z",
+                  "type": "text",
+                  "description": "The date the user converted to Islam in Full ISO 8601 format."
+                },
+                {
+                  "key": "dateOfBirth",
+                  "value": "1995-05-15T00:00:00.000Z",
+                  "type": "text",
+                  "description": "User's birth date in Full ISO 8601 format. Must be 16+ years old."
+                },
+                {
+                  "key": "googleId",
+                  "value": "1234567890",
+                  "type": "text",
+                  "description": "Optional OAuth ID from Google."
+                },
+                {
+                  "key": "appleId",
+                  "value": "000123.abc.0987",
+                  "type": "text",
+                  "description": "Optional OAuth ID from Apple."
+                },
+                {
+                  "key": "profileImage",
+                  "type": "file",
+                  "src": [],
+                  "description": "Profile photo upload (multipart)."
+                },
+                {
+                  "key": "verificationImage",
+                  "type": "file",
+                  "src": [],
+                  "description": "Government ID or proof image for admin verification."
+                },
+                {
+                  "key": "verificationVideo",
+                  "type": "file",
+                  "src": [],
+                  "description": "Short face-verification video for admin review."
+                },
+                {
+                  "key": "aboutMe",
+                  "value": "I am a teacher...",
+                  "type": "text",
+                  "description": "A short biography or intro about the user."
+                },
+                {
+                  "key": "revertStory",
+                  "value": "I found Islam through...",
+                  "type": "text",
+                  "description": "The user's personal story of converting to Islam."
+                },
+                {
+                  "key": "interests",
+                  "value": "[\"Quran\", \"Arabic\"]",
+                  "type": "text",
+                  "description": "Array of strings representing user interests."
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.02 Get Public User Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}/public",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}",
+                "public"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Retrieves public profile information of another user.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.3 Get Own Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            },
+            "description": "Returns the **full** profile of the currently authenticated user, including private fields hidden from the public endpoint. Read-only — no DB writes, no side effects.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.4 Update Own Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            },
+            "description": "Allows the currently authenticated user to update their own profile (text fields and an optional new `profileImage`). The previous profile image is unlinked from disk when a new one is uploaded.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "John Updated",
+                  "type": "text",
+                  "description": "The user's full legal name."
+                },
+                {
+                  "key": "aboutMe",
+                  "value": "New bio",
+                  "type": "text",
+                  "description": "A short biography or intro about the user."
+                },
+                {
+                  "key": "revertStory",
+                  "value": "My story...",
+                  "type": "text",
+                  "description": "The user's personal story of converting to Islam."
+                },
+                {
+                  "key": "revertDate",
+                  "value": "2024-05-11T00:00:00.000Z",
+                  "type": "text",
+                  "description": "The date the user converted to Islam in Full ISO 8601 format."
+                },
+                {
+                  "key": "interests",
+                  "value": "[\"Quran\", \"Cooking\"]",
+                  "type": "text",
+                  "description": "Array of strings representing user interests."
+                },
+                {
+                  "key": "profileImage",
+                  "type": "file",
+                  "src": [],
+                  "description": "Profile photo upload (multipart)."
+                },
+                {
+                  "key": "location[country]",
+                  "value": "USA",
+                  "type": "text",
+                  "description": "Country name."
+                },
+                {
+                  "key": "location[city]",
+                  "value": "New York",
+                  "type": "text",
+                  "description": "City name."
+                },
+                {
+                  "key": "location[latitude]",
+                  "value": "40.7128",
+                  "type": "text",
+                  "description": "Latitude coordinate."
+                },
+                {
+                  "key": "location[longitude]",
+                  "value": "-74.0060",
+                  "type": "text",
+                  "description": "Longitude coordinate."
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.6 Request Account Deletion (Self-Service Soft-Delete)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me"
+              ]
+            },
+            "description": "Lets the authenticated user request deletion of their own account. The account is **soft-deleted** with a 30-day recovery window — during that window the user can come back and re-activate via [auth/10-restore-account.md](../auth/10-restore-account.md). After 30 days, a daily cron job at 03:00 UTC permanently removes the user record and cascade-deletes their owned content (notifications, group activity, ask-imam questions, reset tokens). Subscription history is intentionally retained for billing / IAP-refund audit.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"<the user's current password>\", // Required: Yes\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.7 Request Email Change (Step 1 of 2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/email-change/request",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "email-change",
+                "request"
+              ]
+            },
+            "description": "Step 1 of the self-service email-change flow. The user supplies a new email address and their current password; the server validates the password, checks the new email isn't already in use, stores the pending change on the user document, and:",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newEmail\": \"new.address@example.com\", // Required: Yes\n  \"password\": \"<the user's current password>\", // Required: Yes\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.8 Confirm Email Change (Step 2 of 2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/email-change/confirm",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "email-change",
+                "confirm"
+              ]
+            },
+            "description": "Step 2 of the self-service email-change flow. The user submits the 6-digit OTP that was emailed to the **new** address by [07-email-change-request.md](./07-email-change-request.md). On a successful match the server commits the change: `email` is updated to the pending value, the `emailChange` subdoc is cleared, and `tokenVersion` is bumped — invalidating every JWT that was issued under the old email. The client must call [auth/01-login.md](../auth/01-login.md) again with the new email.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"otp\": \"123456\", // Required: Yes\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.9 Personal Data Export (GDPR)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/data-export",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "data-export"
+              ]
+            },
+            "description": "Returns a single JSON envelope containing every piece of data the system stores **about** the requesting user. Satisfies GDPR Article 15 (right of access). Synchronous — the entire payload is in the HTTP response. Mobile-store policies (Apple §5.1.1(v), Google Play account-deletion policy) require this surface to exist for accounts in EU jurisdictions.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.10 List My Active Sessions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "sessions"
+              ]
+            },
+            "description": "Lists every device session for the authenticated user. A \"session\" is one entry in `User.deviceTokens[]` — typically created at login on each device (mobile / tablet / browser). The response returns metadata only: **the raw FCM/APNs push token is never exposed**, only the subdoc id (`tokenId`), `platform`, `appVersion`, and `lastSeenAt`. The client uses `tokenId` to address a specific session in [11-revoke-session.md](./11-revoke-session.md).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.11 Revoke One Session",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/sessions/{{tokenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "sessions",
+                "{{tokenId}}"
+              ],
+              "variable": [
+                {
+                  "key": "tokenId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Removes **one** specific device session from the authenticated user's `deviceTokens[]`. The device stops receiving push notifications immediately. The JWT issued to that device **remains valid until natural expiry** — `tokenVersion` is intentionally not bumped (bumping it would invalidate every session, not just this one). For a true \"logout this device, invalidate its token now\" use [auth/06-logout.md](../auth/06-logout.md) **on the device itself**, or use [12-revoke-all-sessions.md](./12-revoke-all-sessions.md) to nuke everything.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.12 Revoke All Sessions (Logout All Devices)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/sessions/revoke-all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "sessions",
+                "revoke-all"
+              ]
+            },
+            "description": "Nukes every device session for the authenticated user — clears `deviceTokens[]` entirely **and** bumps `tokenVersion`. Every JWT this user holds (including the one used to call this endpoint) becomes invalid on the next request. The classic \"log me out everywhere\" / \"I lost my phone\" button.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.13 Re-verify Rejected Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/reverify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "reverify"
+              ]
+            },
+            "description": "Recovery path for users whose `status` was flipped to `REJECTED` by an admin. Because REJECTED users are blocked by both the login service and the protected-route auth middleware (see [auth/01-login.md](../auth/01-login.md) §status table and [system-concepts.md](../../system-concepts.md)), they have no way to authenticate. This endpoint is **public** and authenticates the user via a one-time token that the admin reject flow emails them automatically (see [admin/07-update-user.md](../admin/07-update-user.md) — `accountRejected` template).",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "text",
+                  "description": "64-char hex token from the rejection email"
+                },
+                {
+                  "key": "verificationImage",
+                  "type": "file",
+                  "src": [],
+                  "description": "Image, <= 100 MB"
+                },
+                {
+                  "key": "verificationVideo",
+                  "type": "file",
+                  "src": [],
+                  "description": "Video, <= 100 MB"
+                },
+                {
+                  "key": "profileImage",
+                  "type": "file",
+                  "src": [],
+                  "description": "Image, <= 100 MB (replaces existing if provided)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.14 List Users (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "John",
+                  "description": "Name or email regex search"
+                },
+                {
+                  "key": "email",
+                  "value": "dr.john@example.com",
+                  "description": "Exact or regex email match"
+                },
+                {
+                  "key": "role",
+                  "value": "BROTHER",
+                  "description": "Filter by role (`SUPER_ADMIN`, `ADMIN`, `BROTHER`, `SISTER`)"
+                },
+                {
+                  "key": "status",
+                  "value": "PENDING",
+                  "description": "Filter by status (`ACTIVE`, `PENDING`, `SUSPENDED`, etc.)"
+                },
+                {
+                  "key": "isVerified",
+                  "value": "true",
+                  "description": "Filter by email verification status"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Pagination page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Pagination limit"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "createdAt",
+                  "description": "Field name for sorting"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc",
+                  "description": "Sort direction (`asc` or `desc`)"
+                }
+              ]
+            },
+            "description": "Lists all users, with search, various filters, and paginated results. Also used for the Approval Queue by filtering with `status=PENDING`.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.15 User Metrics (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/metrics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "metrics"
+              ]
+            },
+            "description": "Aggregated growth metrics for the admin dashboard.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.16 Get User (Admin Only)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Retrieves full user details by ID. This endpoint is strictly for Administrators. Regular users should use `/users/:userId/public` or `/users/me`.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.17 Update User & Status (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Update any user field, including their account status (ACTIVE, SUSPENDED, etc.).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\",\n  \"status\": \"SUSPENDED\",\n  \"role\": \"BROTHER\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.18 Delete User (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Permanent hard removal of a user account.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.19 Review User (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}/review",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "{{userId}}",
+                "review"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Unified endpoint for approving or rejecting a pending user account.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "status",
+                  "value": "",
+                  "type": "text",
+                  "description": "Either `ACTIVE` or `REJECTED`."
+                },
+                {
+                  "key": "reason",
+                  "value": "",
+                  "type": "text",
+                  "description": "Required if `status` is `REJECTED`."
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.20 List User Profiles (Community Discovery)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/profiles?latitude=23.8103&longitude=90.4125",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "profiles"
+              ],
+              "query": [
+                {
+                  "key": "latitude",
+                  "value": "23.8103"
+                },
+                {
+                  "key": "longitude",
+                  "value": "90.4125"
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "John",
+                  "description": "Search by name"
+                },
+                {
+                  "key": "filter",
+                  "value": "nearby-me",
+                  "description": "Use `new-reverts` for newest members or `nearby-me` for location-based sorting"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Pagination page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Pagination limit"
+                }
+              ]
+            },
+            "description": "Lists public profiles of users within the same community. Brothers see other Brothers, and Sisters see other Sisters. Only active users are listed. Includes distance calculation if coordinates are provided. **Each profile item includes a `connectionStatus` flag so the frontend can conditionally render the Connect button.**",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ask Question Module",
+      "item": [
+        {
+          "name": "3.1 Submit Question",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ask-question",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ask-question"
+              ]
+            },
+            "description": "**Response format**: See [Standard Response Envelope](../../README.md#standard-response-envelope)",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "question",
+                  "value": "How to perform Wudu correctly?",
+                  "type": "text",
+                  "description": "The text content of the question (Max 2000)"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "Optional image attachment (JPG/PNG/WebP)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.2 Get All Questions (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ask-question",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ask-question"
+              ],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "Wudu",
+                  "description": "Search within question text"
+                },
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "description": "Filter by status (`pending`, `answered`)"
+                },
+                {
+                  "key": "userRole",
+                  "value": "SISTER",
+                  "description": "Filter by user role (`BROTHER`, `SISTER`)"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.3 Get My Questions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ask-question/my-questions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ask-question",
+                "my-questions"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "answered",
+                  "description": "Filter by status (`pending`, `answered`)"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page"
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.4 Answer Question (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ask-question/{{questionId}}/answer",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ask-question",
+                "{{questionId}}",
+                "answer"
+              ],
+              "variable": [
+                {
+                  "key": "questionId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"answer\": \"This is the formal answer to the question.\", // The formal answer text\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.5 Get Question Metrics (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ask-question/metrics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ask-question",
+                "metrics"
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Group Module",
+      "item": [
+        {
+          "name": "4.1 Create Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups"
+              ]
+            },
+            "description": "Admins can create new user groups with gender restrictions and categories.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Quran Study Circle\", // Name of the group\n  \"description\": \"A group for brothers to study Quran\", // Detailed description\n  \"userType\": \"BROTHER\", // `BROTHER` or `SISTER`\n  \"category\": \"Quran Studies\", // Category name (e.g., Quran Studies)\n  \"coverImage\": \"https://storage.com/group-cover.jpg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.2 List Groups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups?page=1&limit=10&searchTerm=Quran",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "Quran"
+                },
+                {
+                  "key": "userType",
+                  "value": "",
+                  "description": "**Admin only:** Filter by `BROTHER` or `SISTER`"
+                }
+              ]
+            },
+            "description": "Fetches a paginated list of groups. Results are automatically filtered based on the logged-in user's role.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.3 Join Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/{{groupId}}/join",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "{{groupId}}",
+                "join"
+              ],
+              "variable": [
+                {
+                  "key": "groupId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Allows a user to join a group.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.4 Create Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/{{groupId}}/posts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "{{groupId}}",
+                "posts"
+              ],
+              "variable": [
+                {
+                  "key": "groupId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Members can create posts with text and optional attachments within a group. This endpoint supports both JSON payloads and `multipart/form-data` file uploads.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "content",
+                  "value": "",
+                  "type": "text",
+                  "description": "Text content of the post"
+                },
+                {
+                  "key": "attachments",
+                  "type": "file",
+                  "src": [],
+                  "description": "Optional attachment URLs or files to upload (Max 5)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.5 Get Group Feed",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/{{groupId}}/posts?page=1&limit=10&searchTerm=keyword",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "{{groupId}}",
+                "posts"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "keyword"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "groupId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Fetches the paginated list of posts for a specific group.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.6 Like Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/posts/{{postId}}/like",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "posts",
+                "{{postId}}",
+                "like"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Toggles a like on a post. If already liked, it will be unliked.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.7 Add Comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/posts/{{postId}}/comments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "posts",
+                "{{postId}}",
+                "comments"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Members can add comments to a post.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"Walaikum assalam!\", // Content of the comment\n  \"parentCommentId\": \"60d5ecb86372ad46101f1930\" // (Optional) ID of the comment being replied to\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.8 Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/posts/{{postId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "posts",
+                "{{postId}}"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Deletes a post and all its associated likes and comments. Also cleans up any attached files.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.9 Delete Comment",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/comments/{{commentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "comments",
+                "{{commentId}}"
+              ],
+              "variable": [
+                {
+                  "key": "commentId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Deletes a comment. If it's a top-level comment, all nested replies will also be deleted.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.10 Leave Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/{{groupId}}/leave",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "{{groupId}}",
+                "leave"
+              ],
+              "variable": [
+                {
+                  "key": "groupId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Removes the authenticated user from the specified group and decrements the group's member count.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.11 Update Group",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/{{groupId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "{{groupId}}"
+              ],
+              "variable": [
+                {
+                  "key": "groupId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Updates the metadata of an existing group.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.12 Delete Group",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/{{groupId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "{{groupId}}"
+              ],
+              "variable": [
+                {
+                  "key": "groupId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Deletes a group and all associated members, posts, likes, and comments. Also cleans up attached files.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.13 Get Group Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/{{groupId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "{{groupId}}"
+              ],
+              "variable": [
+                {
+                  "key": "groupId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Fetches metadata for a single group, including a flag indicating if the requesting user is a member.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.14 Get Post Comments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/posts/{{postId}}/comments?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "posts",
+                "{{postId}}",
+                "comments"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Fetches the paginated list of comments for a specific post.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.15 Kick Member",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/{{groupId}}/members/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "{{groupId}}",
+                "members",
+                "{{userId}}"
+              ],
+              "variable": [
+                {
+                  "key": "groupId",
+                  "value": ""
+                },
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Removes a member from a group. Only accessible by Super Admins.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.16 Pin/Unpin Post",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/posts/{{postId}}/pin",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "posts",
+                "{{postId}}",
+                "pin"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Toggles the \"pinned\" status of a post. Pinned posts appear at the top of the group feed.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.17 Update Post",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/groups/posts/{{postId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "groups",
+                "posts",
+                "{{postId}}"
+              ],
+              "variable": [
+                {
+                  "key": "postId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Members can edit their own posts with text and optional attachments. This endpoint supports both JSON payloads and `multipart/form-data` file uploads.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "content",
+                  "value": "",
+                  "type": "text",
+                  "description": "Text content of the post"
+                },
+                {
+                  "key": "attachments",
+                  "type": "file",
+                  "src": [],
+                  "description": "Optional attachment URLs or files to upload (Max 5)"
+                },
+                {
+                  "key": "existingAttachments",
+                  "value": "",
+                  "type": "text",
+                  "description": "Optional list of existing attachment URLs to retain"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Khutbah Module",
+      "item": [
+        {
+          "name": "5.1 Create Khutba",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/khutba",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "khutba"
+              ]
+            },
+            "description": "Uploads a new Jummah Khutba with audio and thumbnail.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "The Importance of Charity",
+                  "type": "text",
+                  "description": "Title of the Khutba"
+                },
+                {
+                  "key": "mosqueName",
+                  "value": "Central Mosque",
+                  "type": "text",
+                  "description": "Name of the mosque"
+                },
+                {
+                  "key": "imam",
+                  "value": "Sheikh Khalid",
+                  "type": "text",
+                  "description": "Name of the Imam"
+                },
+                {
+                  "key": "date",
+                  "value": "2026-05-08T00:00:00.000Z",
+                  "type": "text",
+                  "description": "Date of the Khutba (ISO 8601)"
+                },
+                {
+                  "key": "description",
+                  "value": "A deep dive into Sadaqah.",
+                  "type": "text",
+                  "description": "(Optional) Brief description"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": [],
+                  "description": "Audio file (MP3/WAV, max 50MB)"
+                },
+                {
+                  "key": "thumbnail",
+                  "type": "file",
+                  "src": [],
+                  "description": "Thumbnail image (JPG/PNG/WebP, max 5MB)"
+                },
+                {
+                  "key": "duration",
+                  "value": "45:00",
+                  "type": "text",
+                  "description": "(Optional) Duration of the audio"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5.2 Get All Khutbahs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/khutba",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "khutba"
+              ],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "",
+                  "description": "Search by title, imam, or mosqueName"
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "description": "Page number for pagination (default: 1)"
+                },
+                {
+                  "key": "limit",
+                  "value": "",
+                  "description": "Number of items per page (default: 10)"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "",
+                  "description": "Field to sort by (e.g., `date`, `createdAt`)"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "",
+                  "description": "`asc` or `desc` (default: `desc`)"
+                },
+                {
+                  "key": "startDate",
+                  "value": "",
+                  "description": "Filter by date range (YYYY-MM-DD)"
+                },
+                {
+                  "key": "endDate",
+                  "value": "",
+                  "description": "Filter by date range (YYYY-MM-DD)"
+                }
+              ]
+            },
+            "description": "Retrieves a paginated list of all Khutbahs with search and filter options.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5.3 Get Single Khutba",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/khutba/{{khutbaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "khutba",
+                "{{khutbaId}}"
+              ],
+              "variable": [
+                {
+                  "key": "khutbaId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Retrieves detailed information about a specific Khutba by its ID.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5.4 Update Khutba",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/khutba/{{khutbaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "khutba",
+                "{{khutbaId}}"
+              ],
+              "variable": [
+                {
+                  "key": "khutbaId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Updates an existing Khutba. Supports partial updates and optional file replacements.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "New Khutba Title",
+                  "type": "text",
+                  "description": "(Optional) Updated title"
+                },
+                {
+                  "key": "mosqueName",
+                  "value": "Grand Mosque",
+                  "type": "text",
+                  "description": "(Optional) Updated mosque name"
+                },
+                {
+                  "key": "imam",
+                  "value": "Sheikh Ahmad",
+                  "type": "text",
+                  "description": "(Optional) Updated Imam name"
+                },
+                {
+                  "key": "date",
+                  "value": "2026-05-10T00:00:00.000Z",
+                  "type": "text",
+                  "description": "(Optional) Updated date (ISO 8601)"
+                },
+                {
+                  "key": "description",
+                  "value": "Revised description text.",
+                  "type": "text",
+                  "description": "(Optional) Updated description"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": [],
+                  "description": "(Optional) New audio file"
+                },
+                {
+                  "key": "thumbnail",
+                  "type": "file",
+                  "src": [],
+                  "description": "(Optional) New thumbnail image"
+                },
+                {
+                  "key": "duration",
+                  "value": "50:00",
+                  "type": "text",
+                  "description": "(Optional) Updated duration"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5.5 Delete Khutba",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/khutba/{{khutbaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "khutba",
+                "{{khutbaId}}"
+              ],
+              "variable": [
+                {
+                  "key": "khutbaId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Permanently deletes a Khutba and its associated files.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Mosque Module",
+      "item": [
+        {
+          "name": "6.1 Create Mosque",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/mosques",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mosques"
+              ]
+            },
+            "description": "Adds a new mosque to the database with location, prayer times, and an optional image.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "mosqueName",
+                  "value": "Baitul Mukarram",
+                  "type": "text",
+                  "description": "Name of the mosque"
+                },
+                {
+                  "key": "address",
+                  "value": "Topkhana Road, Dhaka",
+                  "type": "text",
+                  "description": "Full address"
+                },
+                {
+                  "key": "area",
+                  "value": "Motijheel",
+                  "type": "text",
+                  "description": "Area/Neighborhood"
+                },
+                {
+                  "key": "phoneNumber",
+                  "value": "+880123456789",
+                  "type": "text",
+                  "description": "Contact number"
+                },
+                {
+                  "key": "website",
+                  "value": "https://baitulmukarram.org",
+                  "type": "text",
+                  "description": "(Optional) Valid URL"
+                },
+                {
+                  "key": "description",
+                  "value": "The National Mosque of Bangladesh",
+                  "type": "text",
+                  "description": "(Optional) Mosque description"
+                },
+                {
+                  "key": "location",
+                  "value": "{\"type\": \"Point\", \"coordinates\": [90.4125, 23.7298]}",
+                  "type": "text",
+                  "description": "GeoJSON Point"
+                },
+                {
+                  "key": "prayerTimes",
+                  "value": "{\"fajr\": \"04:30\", \"dhuhr\": \"12:15\", \"asr\": \"16:45\", \"maghrib\": \"18:30\", \"isha\": \"20:00\", \"jummah\": \"13:30\"}",
+                  "type": "text",
+                  "description": "5 daily prayer times (HH:MM)"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "Mosque image (max 1)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6.2 Get All Mosques",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/mosques",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mosques"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (default: 1)"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page (default: 10)"
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "Baitul",
+                  "description": "Search by name, area, address, or description"
+                },
+                {
+                  "key": "area",
+                  "value": "Motijheel",
+                  "description": "Filter by specific area"
+                },
+                {
+                  "key": "latitude",
+                  "value": "23.7298",
+                  "description": "User's latitude for distance calculation"
+                },
+                {
+                  "key": "longitude",
+                  "value": "90.4125",
+                  "description": "User's longitude for distance calculation"
+                },
+                {
+                  "key": "filter",
+                  "value": "nearby-me",
+                  "description": "Use `nearby-me` to sort by distance"
+                }
+              ]
+            },
+            "description": "Fetches a paginated list of mosques with optional search and filtering.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6.3 Get Single Mosque",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/mosques/{{mosqueId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mosques",
+                "{{mosqueId}}"
+              ],
+              "variable": [
+                {
+                  "key": "mosqueId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Retrieves full details of a specific mosque by its ID.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6.4 Update Mosque",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/mosques/{{mosqueId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mosques",
+                "{{mosqueId}}"
+              ],
+              "variable": [
+                {
+                  "key": "mosqueId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Updates specific fields of an existing mosque entry. Supports partial updates and optional image replacement.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "mosqueName",
+                  "value": "Baitul Mukarram New",
+                  "type": "text",
+                  "description": "(Optional) Updated name"
+                },
+                {
+                  "key": "address",
+                  "value": "Street 123, Dhaka",
+                  "type": "text",
+                  "description": "(Optional) Updated address"
+                },
+                {
+                  "key": "area",
+                  "value": "Gulshan",
+                  "type": "text",
+                  "description": "(Optional) Updated area"
+                },
+                {
+                  "key": "phoneNumber",
+                  "value": "+880987654321",
+                  "type": "text",
+                  "description": "(Optional) Updated phone"
+                },
+                {
+                  "key": "website",
+                  "value": "https://new-website.org",
+                  "type": "text",
+                  "description": "(Optional) Updated website"
+                },
+                {
+                  "key": "description",
+                  "value": "Revised description.",
+                  "type": "text",
+                  "description": "(Optional) Updated description"
+                },
+                {
+                  "key": "location",
+                  "value": "{\"type\": \"Point\", \"coordinates\": [90.4125, 23.7298]}",
+                  "type": "text",
+                  "description": "(Optional) Updated GeoJSON Point"
+                },
+                {
+                  "key": "prayerTimes",
+                  "value": "{\"fajr\": \"04:45\", \"dhuhr\": \"12:30\"}",
+                  "type": "text",
+                  "description": "(Optional) Updated prayer times"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "(Optional) New mosque image"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6.5 Delete Mosque",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/mosques/{{mosqueId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mosques",
+                "{{mosqueId}}"
+              ],
+              "variable": [
+                {
+                  "key": "mosqueId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Permanently removes a mosque entry and its associated image from the database.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notification Module",
+      "item": [
+        {
+          "name": "7.1 Get My Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "me"
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7.2 Mark as Read",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/{{notificationId}}/read",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "{{notificationId}}",
+                "read"
+              ],
+              "variable": [
+                {
+                  "key": "notificationId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Marks a single notification as read. This is typically called immediately when a user taps on a notification.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7.3 Mark All as Read",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/read-all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "read-all"
+              ]
+            },
+            "description": "Marks all unread notifications for the logged-in user as read. Typically triggered when a user taps a \"Mark all as read\" button.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7.4 Send Broadcast",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/broadcasts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "broadcasts"
+              ]
+            },
+            "description": "Send a notification to a specific audience (All users, Brothers, Sisters, or Super Admins).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"System Update\", // Title of the notification.\n  \"text\": \"We have scheduled a maintenance window for tomorrow.\", // Main message content.\n  \"audience\": \"ALL\", // Targeted group (`ALL`, `BROTHER`, `SISTER`).\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7.5 Get Sent History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notifications/broadcasts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "broadcasts"
+              ]
+            },
+            "description": "Retrieve a log of all broadcast notifications sent by admins.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Legal Module",
+      "item": [
+        {
+          "name": "8.1 List Legal Pages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/legal",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "legal"
+              ]
+            },
+            "description": "Shob available legal pages (Terms, Privacy, etc.) er title ebong slug list fetch korar jonno. Admin-side e same endpoint use kora hoy CMS list view-er jonno.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "8.2 Get Legal Page by Slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/legal/{{slug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "legal",
+                "{{slug}}"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Slug diye specific legal page-er full HTML/Markdown content fetch korar jonno.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "8.3 Create Legal Page",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/legal",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "legal"
+              ]
+            },
+            "description": "Notun legal page create kore.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Terms and Conditions\",\n  \"content\": \"<h1>Terms</h1><p>Welcome to...</p>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "8.4 Update Legal Page",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/legal/{{slug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "legal",
+                "{{slug}}"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Existing legal page update kore.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "8.5 Delete Legal Page",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/legal/{{slug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "legal",
+                "{{slug}}"
+              ],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Legal page delete kore.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin Module",
+      "item": [
+        {
+          "name": "9.1 Growth Metrics (Stats)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/growth-metrics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "growth-metrics"
+              ]
+            },
+            "description": "This endpoint is used for dashboard summary cards. It calculates monthly growth: current month vs last month.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "9.2 Recent Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/recent-activities",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "recent-activities"
+              ]
+            },
+            "description": "**Response format**: See [Standard Response Envelope](../../README.md#standard-response-envelope)",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Learning Content Module",
+      "item": [
+        {
+          "name": "10.1 Create Learning Content",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/learning-contents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "learning-contents"
+              ]
+            },
+            "description": "Admin new learning content (video) create korar jonno ei endpoint use korbe.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Basic Fiqh",
+                  "type": "text",
+                  "description": "Video title"
+                },
+                {
+                  "key": "description",
+                  "value": "Introduction to Islamic jurisprudence",
+                  "type": "text",
+                  "description": "Video description"
+                },
+                {
+                  "key": "category",
+                  "value": "Fiqh",
+                  "type": "text",
+                  "description": "Content category"
+                },
+                {
+                  "key": "video",
+                  "type": "file",
+                  "src": [],
+                  "description": "The video file (mp4, etc.)"
+                },
+                {
+                  "key": "durationInSeconds",
+                  "value": "300",
+                  "type": "text",
+                  "description": "Video duration in seconds"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10.2 List Learning Contents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/learning-contents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "learning-contents"
+              ],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "Fiqh",
+                  "description": "Title ba category diye search"
+                },
+                {
+                  "key": "category",
+                  "value": "Hadith",
+                  "description": "Specific category filter"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page"
+                }
+              ]
+            },
+            "description": "Shob learning content browse korar jonno. Search ebong filter support kore.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10.3 Get Single Learning Content",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/learning-contents/{{contentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "learning-contents",
+                "{{contentId}}"
+              ],
+              "variable": [
+                {
+                  "key": "contentId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Specific content details dekhar jonno.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10.4 Update Learning Content",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/learning-contents/{{contentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "learning-contents",
+                "{{contentId}}"
+              ],
+              "variable": [
+                {
+                  "key": "contentId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Admin existing content update korar jonno use korbe.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Advanced Fiqh",
+                  "type": "text",
+                  "description": "Updated title"
+                },
+                {
+                  "key": "description",
+                  "value": "Deeper dive into Islamic jurisprudence",
+                  "type": "text",
+                  "description": "Updated description"
+                },
+                {
+                  "key": "category",
+                  "value": "Fiqh",
+                  "type": "text",
+                  "description": "Updated category"
+                },
+                {
+                  "key": "video",
+                  "type": "file",
+                  "src": [],
+                  "description": "Updated video file (mp4, etc.)"
+                },
+                {
+                  "key": "durationInSeconds",
+                  "value": "390",
+                  "type": "text",
+                  "description": "Updated duration of the video in seconds"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10.5 Delete Learning Content",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/learning-contents/{{contentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "learning-contents",
+                "{{contentId}}"
+              ],
+              "variable": [
+                {
+                  "key": "contentId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Admin content delete korar jonno use korbe. Automatic likes ebong comments o delete hoye jabe.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10.6 Like Content",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/learning-contents/{{contentId}}/like",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "learning-contents",
+                "{{contentId}}",
+                "like"
+              ],
+              "variable": [
+                {
+                  "key": "contentId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Toggles a like on learning content. Jodi age theke like thake, tobe unlike hoye jabe.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10.7 Add Comment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/learning-contents/{{contentId}}/comments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "learning-contents",
+                "{{contentId}}",
+                "comments"
+              ],
+              "variable": [
+                {
+                  "key": "contentId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Users can add comments or reply to existing comments.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"Very informative, JazakAllah!\", // Content of the comment\n  \"parentCommentId\": \"60d5ecb86372ad46101f1940\", // Reply korar jonno parent comment ID\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10.8 List Comments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/learning-contents/{{contentId}}/comments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "learning-contents",
+                "{{contentId}}",
+                "comments"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "",
+                  "description": "Items per page"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "contentId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Specific content er shob comments dekhar jonno.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10.9 Delete Comment",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/learning-contents/comments/{{commentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "learning-contents",
+                "comments",
+                "{{commentId}}"
+              ],
+              "variable": [
+                {
+                  "key": "commentId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "User nijek comment delete korte pare, athoba Admin jekono comment delete korte pare.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dua Module",
+      "item": [
+        {
+          "name": "11.1 Create Dua",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/duas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "duas"
+              ]
+            },
+            "description": "**Response format**: See [Standard Response Envelope](../../README.md#standard-response-envelope)",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Dua for waking up",
+                  "type": "text",
+                  "description": "The title of the dua"
+                },
+                {
+                  "key": "waqt",
+                  "value": "Fajr",
+                  "type": "text",
+                  "description": "Prayer time category"
+                },
+                {
+                  "key": "details",
+                  "value": "Alhamdu lillahil-ladhi...",
+                  "type": "text",
+                  "description": "The content/details of the dua"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": [],
+                  "description": "Audio file attachment"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "11.2 Get All Duas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/duas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "duas"
+              ],
+              "query": [
+                {
+                  "key": "waqt",
+                  "value": "",
+                  "description": "Filter by prayer time (e.g., `Fajr`)"
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "",
+                  "description": "Search in `title` and `details`"
+                },
+                {
+                  "key": "page",
+                  "value": "",
+                  "description": "Page number (default: 1)"
+                },
+                {
+                  "key": "limit",
+                  "value": "",
+                  "description": "Items per page (default: 10)"
+                },
+                {
+                  "key": "sort",
+                  "value": "",
+                  "description": "Sorting criteria (e.g., `-createdAt`)"
+                },
+                {
+                  "key": "fields",
+                  "value": "",
+                  "description": "Comma-separated list of fields to include"
+                }
+              ]
+            },
+            "description": "**Response format**: See [Standard Response Envelope](../../README.md#standard-response-envelope)",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "11.3 Get Single Dua",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/duas/{{duaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "duas",
+                "{{duaId}}"
+              ],
+              "variable": [
+                {
+                  "key": "duaId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "**Response format**: See [Standard Response Envelope](../../README.md#standard-response-envelope)",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "11.4 Update Dua",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/duas/{{duaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "duas",
+                "{{duaId}}"
+              ],
+              "variable": [
+                {
+                  "key": "duaId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "**Response format**: See [Standard Response Envelope](../../README.md#standard-response-envelope)",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "",
+                  "type": "text",
+                  "description": "Updated title"
+                },
+                {
+                  "key": "waqt",
+                  "value": "",
+                  "type": "text",
+                  "description": "Updated prayer time category"
+                },
+                {
+                  "key": "details",
+                  "value": "",
+                  "type": "text",
+                  "description": "Updated content"
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "src": [],
+                  "description": "New audio file attachment"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "11.5 Delete Dua",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/duas/{{duaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "duas",
+                "{{duaId}}"
+              ],
+              "variable": [
+                {
+                  "key": "duaId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "**Response format**: See [Standard Response Envelope](../../README.md#standard-response-envelope)",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Support Ticket Module",
+      "item": [
+        {
+          "name": "12.1 Create Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-tickets"
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12.2 List My Tickets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-tickets/my",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-tickets",
+                "my"
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12.3 Get Ticket Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-tickets/{{ticketId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-tickets",
+                "{{ticketId}}"
+              ],
+              "variable": [
+                {
+                  "key": "ticketId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12.4 List Ticket Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-tickets/{{ticketId}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-tickets",
+                "{{ticketId}}",
+                "messages"
+              ],
+              "variable": [
+                {
+                  "key": "ticketId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12.5 Reply To Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-tickets/{{ticketId}}/reply",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-tickets",
+                "{{ticketId}}",
+                "reply"
+              ],
+              "variable": [
+                {
+                  "key": "ticketId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12.6 Admin — List Tickets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-tickets/admin/list",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-tickets",
+                "admin",
+                "list"
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12.7 Admin — Ticket Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-tickets/admin/stats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-tickets",
+                "admin",
+                "stats"
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12.8 Admin — Update Ticket Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-tickets/admin/{{ticketId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-tickets",
+                "admin",
+                "{{ticketId}}",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "ticketId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12.9 Admin — Update Ticket Priority",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-tickets/admin/{{ticketId}}/priority",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-tickets",
+                "admin",
+                "{{ticketId}}",
+                "priority"
+              ],
+              "variable": [
+                {
+                  "key": "ticketId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12.10 Admin — Assign Ticket",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/support-tickets/admin/{{ticketId}}/assign",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "support-tickets",
+                "admin",
+                "{{ticketId}}",
+                "assign"
+              ],
+              "variable": [
+                {
+                  "key": "ticketId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Note: the service does **not** verify that the provided `adminId` actually corresponds to a `SUPER_ADMIN` user — that check could be added later if assignment to non-admins becomes a concern.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pending Email Module",
+      "item": [
+        {
+          "name": "13.1 List Pending Emails",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/pending-emails",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "pending-emails"
+              ]
+            },
+            "description": "`403 Forbidden` (`\"message\": \"You don't have permission to access this API\"`).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "13.2 Requeue Dead Pending Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/pending-emails/{{pendingEmailId}}/requeue",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "pending-emails",
+                "{{pendingEmailId}}",
+                "requeue"
+              ],
+              "variable": [
+                {
+                  "key": "pendingEmailId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "`403 Forbidden` (`\"message\": \"You don't have permission to access this API\"`).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "13.3 Pending Email Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/pending-emails/stats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "pending-emails",
+                "stats"
+              ]
+            },
+            "description": "`403 Forbidden` (`\"message\": \"You don't have permission to access this API\"`).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Connection Module",
+      "item": [
+        {
+          "name": "14.1 Send Connection Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/connections",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "connections"
+              ]
+            },
+            "description": "Allows a user to send a connection request to another user. If the request is successful, a pending connection record is created, and the receiver is notified via Socket.IO and Push Notification.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receiverId\": \"664a1b2c3d4e5f6a7b8c9d1c\", // The `id` of the user you want to connect with\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "14.2 Accept Connection Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/connections/{{connectionId}}/accept",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "connections",
+                "{{connectionId}}",
+                "accept"
+              ],
+              "variable": [
+                {
+                  "key": "connectionId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Allows the receiver of a connection request to accept it. This action updates the connection status to `ACCEPTED` and automatically creates a private chat between the two users.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "14.3 Reject Connection Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/connections/{{connectionId}}/reject",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "connections",
+                "{{connectionId}}",
+                "reject"
+              ],
+              "variable": [
+                {
+                  "key": "connectionId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Allows the receiver of a connection request to reject it. This action deletes the connection record from the database.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "14.4 Cancel Pending Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/connections/{{connectionId}}/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "connections",
+                "{{connectionId}}",
+                "cancel"
+              ],
+              "variable": [
+                {
+                  "key": "connectionId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Allows the **sender** of a pending connection request to cancel (undo) it before the receiver responds.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "14.5 Remove Connection",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/connections/{{connectionId}}/remove",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "connections",
+                "{{connectionId}}",
+                "remove"
+              ],
+              "variable": [
+                {
+                  "key": "connectionId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Allows either user in an **accepted** connection to permanently remove it.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "14.6 List My Connections",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/connections",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "connections"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Pagination limit"
+                },
+                {
+                  "key": "cursor",
+                  "value": "...",
+                  "description": "Base64 cursor for next page"
+                }
+              ]
+            },
+            "description": "Fetches a paginated list of all established (ACCEPTED) connections for the logged-in user.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "14.7 List Connection Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/connections/requests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "connections",
+                "requests"
+              ],
+              "query": [
+                {
+                  "key": "direction",
+                  "value": "sent",
+                  "description": "Whether to fetch requests you `sent` or `received`"
+                },
+                {
+                  "key": "nextCursor",
+                  "value": "NjY0YTFiMmMzZDRlNWY2YTdiOGM5ZDFh",
+                  "description": "Base64 encoded cursor value of the last item from the previous page for cursor pagination"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Pagination limit"
+                },
+                {
+                  "key": "sort",
+                  "value": "-createdAt",
+                  "description": "Sort field (prefix with `-` for descending)"
+                },
+                {
+                  "key": "fields",
+                  "value": "status,createdAt",
+                  "description": "Comma-separated fields to select"
+                }
+              ]
+            },
+            "description": "Fetches a cursor-paginated list of pending connection requests, either sent by the user (`direction=sent`) or received by them (`direction=received`).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Chat Module",
+      "item": [
+        {
+          "name": "15.1 Create or Get Chat",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chats/{{otherUserId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chats",
+                "{{otherUserId}}"
+              ],
+              "variable": [
+                {
+                  "key": "otherUserId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Creates a new chat between the logged-in user and another user, or retrieves an existing one if it already exists.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "15.2 List My Chats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chats?searchTerm=John",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chats"
+              ],
+              "query": [
+                {
+                  "key": "searchTerm",
+                  "value": "John"
+                }
+              ]
+            },
+            "description": "Fetches all chat conversations for the logged-in user, including last message preview, unread count, and participant presence.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Message Module",
+      "item": [
+        {
+          "name": "16.1 Send Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages"
+              ]
+            },
+            "description": "Sends a text or media message within a chat conversation. Supports multi-file uploads for images, videos, and documents.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "chatId",
+                  "value": "664a1b2c3d4e5f6a7b8c9d1z",
+                  "type": "text",
+                  "description": "Target Chat ID"
+                },
+                {
+                  "key": "text",
+                  "value": "Hello!",
+                  "type": "text",
+                  "description": "Message text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "Image files"
+                },
+                {
+                  "key": "media",
+                  "type": "file",
+                  "src": [],
+                  "description": "Audio/Video files"
+                },
+                {
+                  "key": "doc",
+                  "type": "file",
+                  "src": [],
+                  "description": "Document files"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "16.2 Get Chat Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messages/chat/{{chatId}}?cursor=...&limit=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages",
+                "chat",
+                "{{chatId}}"
+              ],
+              "query": [
+                {
+                  "key": "cursor",
+                  "value": "..."
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "chatId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "16.3 Mark Chat as Read",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messages/chat/{{chatId}}/read",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "messages",
+                "chat",
+                "{{chatId}}",
+                "read"
+              ],
+              "variable": [
+                {
+                  "key": "chatId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Subscription Module",
+      "item": [
+        {
+          "name": "17.1 Get My Subscription",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "me"
+              ]
+            },
+            "description": "User tar nijer current subscription status, plan, expiry date ityadi dekhbar jonno ei endpoint call korbe.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "17.2 Verify Apple Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/apple/verify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "apple",
+                "verify"
+              ]
+            },
+            "description": "iOS app theke purchase transaction verify korar jonno ei endpoint use kora hoy. Apple StoreKit theke pawa `signedTransactionInfo` pathate hobe.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "17.3 Apple Webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/apple/webhook",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "apple",
+                "webhook"
+              ]
+            },
+            "description": "Apple App Store Server Notifications V2 handle korar jonno endpoint. Subscription renewal, cancellation, grace period ityadi events Apple theke direct ei endpoint-e ashe.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "17.4 Verify Google Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/google/verify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "google",
+                "verify"
+              ]
+            },
+            "description": "Android app theke purchase verify korar jonno ei endpoint use kora hoy. Google Play Billing Client theke pawa `purchaseToken` ebong `productId` pathate hobe.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "17.5 Google Webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/google/webhook",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "google",
+                "webhook"
+              ]
+            },
+            "description": "Google Play Real-Time Developer Notifications (RTDN) handle korar jonno endpoint. Subscription renewal, cancellation ityadi events Google Pub/Sub theke push message hishebe ei endpoint-e ashe.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "17.6 Choose Free Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/choose/free",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "choose",
+                "free"
+              ]
+            },
+            "description": "User manually FREE plan-e switch korar jonno ei endpoint use korbe (jodi tar kono active store subscription na thake).",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Prayer Time Module",
+      "item": [
+        {
+          "name": "18.1 Get Prayer Times",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/prayer-times",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prayer-times"
+              ],
+              "query": [
+                {
+                  "key": "latitude",
+                  "value": "23.8103",
+                  "description": "Latitude of the location (must be between -90 and 90)"
+                },
+                {
+                  "key": "longitude",
+                  "value": "90.4125",
+                  "description": "Longitude of the location (must be between -180 and 180)"
+                },
+                {
+                  "key": "date",
+                  "value": "2026-06-12",
+                  "description": "Target date in `YYYY-MM-DD` format (defaults to current date)"
+                },
+                {
+                  "key": "timezone",
+                  "value": "Asia/Dhaka",
+                  "description": "Standard IANA timezone identifier (defaults to `Asia/Dhaka`)"
+                },
+                {
+                  "key": "madhab",
+                  "value": "Hanafi",
+                  "description": "Madhab for Asr calculation: `Hanafi` (default) or `Shafi`"
+                },
+                {
+                  "key": "method",
+                  "value": "karachi",
+                  "description": "Calculation method authority (default: `karachi`)"
+                }
+              ]
+            },
+            "description": "Computes highly accurate Salat (Prayer) times dynamically and offline based on geographical coordinates (GPS) and a date.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5002/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

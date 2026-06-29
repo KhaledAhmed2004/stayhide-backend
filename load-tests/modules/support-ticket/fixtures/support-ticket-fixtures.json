@@ -1,0 +1,129 @@
+{
+  "tickets": [
+    {
+      "id": "6a207a6c5628d992daa388c0",
+      "userId": "6a14b4990d1783162d4786f8",
+      "subject": "loadtest-ticket-billing-issue",
+      "status": "OPEN",
+      "category": "BILLING",
+      "priority": "HIGH",
+      "ticketNumber": "loadtest-TKT-0001"
+    },
+    {
+      "id": "6a207a6c5628d992daa388c9",
+      "userId": "6a14b4990d1783162d4786fa",
+      "subject": "loadtest-ticket-account-help",
+      "status": "IN_PROGRESS",
+      "category": "ACCOUNT",
+      "priority": "MEDIUM",
+      "ticketNumber": "loadtest-TKT-0002"
+    },
+    {
+      "id": "6a207a6c5628d992daa388d2",
+      "userId": "6a14b4990d1783162d4786fc",
+      "subject": "loadtest-ticket-bug-report",
+      "status": "OPEN",
+      "category": "BUG",
+      "priority": "HIGH",
+      "ticketNumber": "loadtest-TKT-0003"
+    },
+    {
+      "id": "6a207a6c5628d992daa388db",
+      "userId": "6a14b49a0d1783162d4786fe",
+      "subject": "loadtest-ticket-feature-request",
+      "status": "RESOLVED",
+      "category": "FEATURE",
+      "priority": "LOW",
+      "ticketNumber": "loadtest-TKT-0004"
+    },
+    {
+      "id": "6a207a6c5628d992daa388e2",
+      "userId": "6a14b49a0d1783162d478700",
+      "subject": "loadtest-ticket-general-inquiry",
+      "status": "CLOSED",
+      "category": "OTHER",
+      "priority": "MEDIUM",
+      "ticketNumber": "loadtest-TKT-0005"
+    }
+  ],
+  "ticketMessages": [
+    {
+      "id": "6a207a6c5628d992daa388c2",
+      "ticketId": "6a207a6c5628d992daa388c0",
+      "senderId": "6a14b4990d1783162d4786f8",
+      "senderType": "USER"
+    },
+    {
+      "id": "6a207a6c5628d992daa388c4",
+      "ticketId": "6a207a6c5628d992daa388c0",
+      "senderId": "6a14b4990d1783162d4786f6",
+      "senderType": "ADMIN"
+    },
+    {
+      "id": "6a207a6c5628d992daa388c6",
+      "ticketId": "6a207a6c5628d992daa388c0",
+      "senderId": "6a14b4990d1783162d4786f8",
+      "senderType": "USER"
+    },
+    {
+      "id": "6a207a6c5628d992daa388cb",
+      "ticketId": "6a207a6c5628d992daa388c9",
+      "senderId": "6a14b4990d1783162d4786fa",
+      "senderType": "USER"
+    },
+    {
+      "id": "6a207a6c5628d992daa388cd",
+      "ticketId": "6a207a6c5628d992daa388c9",
+      "senderId": "6a14b4990d1783162d4786f6",
+      "senderType": "ADMIN"
+    },
+    {
+      "id": "6a207a6c5628d992daa388cf",
+      "ticketId": "6a207a6c5628d992daa388c9",
+      "senderId": "6a14b4990d1783162d4786fa",
+      "senderType": "USER"
+    },
+    {
+      "id": "6a207a6c5628d992daa388d4",
+      "ticketId": "6a207a6c5628d992daa388d2",
+      "senderId": "6a14b4990d1783162d4786fc",
+      "senderType": "USER"
+    },
+    {
+      "id": "6a207a6c5628d992daa388d6",
+      "ticketId": "6a207a6c5628d992daa388d2",
+      "senderId": "6a14b4990d1783162d4786f6",
+      "senderType": "ADMIN"
+    },
+    {
+      "id": "6a207a6c5628d992daa388d8",
+      "ticketId": "6a207a6c5628d992daa388d2",
+      "senderId": "6a14b4990d1783162d4786fc",
+      "senderType": "USER"
+    },
+    {
+      "id": "6a207a6c5628d992daa388dd",
+      "ticketId": "6a207a6c5628d992daa388db",
+      "senderId": "6a14b49a0d1783162d4786fe",
+      "senderType": "USER"
+    },
+    {
+      "id": "6a207a6c5628d992daa388df",
+      "ticketId": "6a207a6c5628d992daa388db",
+      "senderId": "6a14b4990d1783162d4786f6",
+      "senderType": "ADMIN"
+    },
+    {
+      "id": "6a207a6c5628d992daa388e4",
+      "ticketId": "6a207a6c5628d992daa388e2",
+      "senderId": "6a14b49a0d1783162d478700",
+      "senderType": "USER"
+    },
+    {
+      "id": "6a207a6c5628d992daa388e6",
+      "ticketId": "6a207a6c5628d992daa388e2",
+      "senderId": "6a14b4990d1783162d4786f6",
+      "senderType": "ADMIN"
+    }
+  ]
+}
