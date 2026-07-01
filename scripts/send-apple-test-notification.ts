@@ -10,7 +10,7 @@
  *   npx ts-node scripts/send-apple-test-notification.ts
  *
  * Prerequisites:
- *   - .env: APPLE_KEY_ID, APPLE_ISSUER_ID, APPLE_PRIVATE_KEY_PATH,
+ *   - .env: APPLE_KEY_ID, APPLE_ISSUER_ID, APPLE_PRIVATE_KEY_BASE64,
  *           APPLE_BUNDLE_ID, APPLE_ENVIRONMENT
  *   - App Store Connect → App Information → "App Store Server Notifications"
  *     section me Sandbox Server URL set kora (ngrok URL +
@@ -38,17 +38,11 @@ const required = (name: string): string => {
 const main = async (): Promise<void> => {
   const keyId = required('APPLE_KEY_ID');
   const issuerId = required('APPLE_ISSUER_ID');
-  const privateKeyPath = required('APPLE_PRIVATE_KEY_PATH');
+  const privateKeyBase64 = required('APPLE_PRIVATE_KEY_BASE64');
   const bundleId = required('APPLE_BUNDLE_ID');
   const envName = (process.env.APPLE_ENVIRONMENT || 'sandbox').toLowerCase();
 
-  const resolvedKeyPath = path.resolve(privateKeyPath);
-  if (!fs.existsSync(resolvedKeyPath)) {
-    console.error(`✗ Private key file not found: ${resolvedKeyPath}`);
-    process.exit(1);
-  }
-
-  const signingKey = fs.readFileSync(resolvedKeyPath, 'utf8');
+  const signingKey = Buffer.from(privateKeyBase64, 'base64').toString('utf8');
   const environment =
     envName === 'production' ? Environment.PRODUCTION : Environment.SANDBOX;
 

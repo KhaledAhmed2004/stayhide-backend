@@ -32,8 +32,7 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
 # Copy scripts
 COPY --from=builder /app/scripts ./scripts
-# Copy secrets folder (required for Apple/Google keys)
-COPY --from=builder /app/secrets ./secrets
+# (Secrets are now handled via Base64 environment variables)
 
 # Set environment to production
 ENV NODE_ENV=production

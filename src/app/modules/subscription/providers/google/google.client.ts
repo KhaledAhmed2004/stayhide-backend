@@ -12,10 +12,23 @@ import ApiError from '../../../../../errors/ApiError';
 let cachedAndroidPublisher: androidpublisher_v3.Androidpublisher | null = null;
 let cachedOAuth2Client: OAuth2Client | null = null;
 
-const resolveServiceAccountPath = (): string => {
-  const configured =
-    config.googlePlay.serviceAccountPath || './secrets/google-service-account.json';
-  return path.resolve(configured);
+const getServiceAccountCredentials = (): any => {
+  const base64 = (config.googlePlay as any).serviceAccountBase64;
+  if (!base64) {
+    throw new ApiError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      'GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64 environment variable is not configured'
+    );
+  }
+  try {
+    const jsonString = Buffer.from(base64, 'base64').toString('utf8');
+    return JSON.parse(jsonString);
+  } catch (error) {
+    throw new ApiError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      'Failed to parse GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64. Ensure it is a valid Base64 encoded JSON string.'
+    );
+  }
 };
 
 // Returns an authenticated Android Publisher client. Used by verify.ts and
@@ -30,16 +43,10 @@ export const getAndroidPublisher = (): androidpublisher_v3.Androidpublisher => {
     );
   }
 
-  const keyFile = resolveServiceAccountPath();
-  if (!fs.existsSync(keyFile)) {
-    throw new ApiError(
-      httpStatus.INTERNAL_SERVER_ERROR,
-      `Google Play service account key file not found: ${keyFile}. Download the JSON key from Google Cloud Console and place it at this path.`
-    );
-  }
+  const credentials = getServiceAccountCredentials();
 
   const auth = new google.auth.GoogleAuth({
-    keyFile,
+    credentials,
     scopes: ['https://www.googleapis.com/auth/androidpublisher'],
   });
 

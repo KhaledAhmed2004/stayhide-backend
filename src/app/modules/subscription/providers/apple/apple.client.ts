@@ -14,7 +14,7 @@ let cachedVerifier: SignedDataVerifier | null = null;
 
 const loadAppleRootCertificates = (): Buffer[] => {
   const dir = path.resolve(
-    config.apple.rootCertsDir || './secrets/apple-root-certs'
+    config.apple.rootCertsDir || './src/config/certs/apple-root-certs'
   );
 
   if (!fs.existsSync(dir)) {

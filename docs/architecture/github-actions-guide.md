@@ -1,4 +1,4 @@
-# 🤖 GitHub Actions CI/CD Guide (AWS Deployment)
+# GitHub Actions CI/CD Guide (AWS Deployment)
 
 Ei guide-e amra dekhbo kivabe [deploy-aws.yml](../../.github/workflows/deploy-aws.yml) file-ta use kore apnar project automation setup korben.
 
@@ -6,7 +6,7 @@ Ei guide-e amra dekhbo kivabe [deploy-aws.yml](../../.github/workflows/deploy-aw
 
 ---
 
-## 🛠️ Phase 1: AWS Setup (One-time)
+## Phase 1: AWS Setup (One-time)
 
 GitHub Actions run korar agee AWS Console-e nicher jinish gulo setup thakte hobe:
 
@@ -22,7 +22,7 @@ GitHub Actions run korar agee AWS Console-e nicher jinish gulo setup thakte hobe
 
 ---
 
-## 🔐 Phase 2: GitHub Secrets Setup
+## Phase 2: GitHub Secrets Setup
 
 GitHub Repository settings-e giye **Actions Secrets**-e nicher value gulo add koren:
 
@@ -33,7 +33,7 @@ GitHub Repository settings-e giye **Actions Secrets**-e nicher value gulo add ko
 
 ---
 
-## 🚀 Phase 3: How the Workflow Works
+## Phase 3: How the Workflow Works
 
 Amader kache ২-dhoroner deployment option ache:
 

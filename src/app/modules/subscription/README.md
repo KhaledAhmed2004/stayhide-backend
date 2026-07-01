@@ -433,14 +433,14 @@ apple: {
   appAppleId: process.env.APPLE_APP_APPLE_ID,
   keyId: process.env.APPLE_KEY_ID,
   issuerId: process.env.APPLE_ISSUER_ID,
-  privateKeyPath: process.env.APPLE_PRIVATE_KEY_PATH,
+  privateKeyBase64: process.env.APPLE_PRIVATE_KEY_BASE64,
   environment: (process.env.APPLE_ENVIRONMENT || 'sandbox') as 'sandbox' | 'production',
-  rootCertsDir: process.env.APPLE_ROOT_CERTS_DIR || './secrets/apple-root-certs',
+  rootCertsDir: process.env.APPLE_ROOT_CERTS_DIR || './src/config/certs/apple-root-certs',
 }
 
 googlePlay: {
   packageName: process.env.GOOGLE_PLAY_PACKAGE_NAME || '',
-  serviceAccountPath: process.env.GOOGLE_PLAY_SERVICE_ACCOUNT_PATH || './secrets/google-service-account.json',
+  serviceAccountBase64: process.env.GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64 || '',
   pubsubAudience: process.env.GOOGLE_PLAY_PUBSUB_AUDIENCE || '',
   pubsubServiceAccountEmail: process.env.GOOGLE_PLAY_PUBSUB_SERVICE_ACCOUNT_EMAIL || '',
 }
@@ -728,20 +728,20 @@ APPLE_BUNDLE_ID=com.yourcompany.tbsosick          # from App Store Connect
 APPLE_APP_APPLE_ID=1234567890                     # numeric App ID from App Store Connect
 APPLE_KEY_ID=ABC1234DEF                           # 10-char Key ID from API key generation
 APPLE_ISSUER_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx  # UUID from App Store Connect
-APPLE_PRIVATE_KEY_PATH=./secrets/apple-key.p8     # path to .p8 private key file
+APPLE_PRIVATE_KEY_BASE64=<base64_string>          # Base64 encoded .p8 private key
 APPLE_ENVIRONMENT=sandbox                         # 'sandbox' or 'production'
-APPLE_ROOT_CERTS_DIR=./secrets/apple-root-certs   # directory containing Apple root CAs
+APPLE_ROOT_CERTS_DIR=./src/config/certs/apple-root-certs # directory containing Apple root CAs
 
 # Google Play Billing — required for Google side of subscription module
 GOOGLE_PLAY_PACKAGE_NAME=com.yourcompany.tbsosick
-GOOGLE_PLAY_SERVICE_ACCOUNT_PATH=./secrets/google-service-account.json
+GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64=<base64_string> # Base64 encoded service account JSON
 GOOGLE_PLAY_PUBSUB_AUDIENCE=https://your-domain.com/api/v1/subscription/google/webhook
 GOOGLE_PLAY_PUBSUB_SERVICE_ACCOUNT_EMAIL=your-pubsub-pusher@your-project.iam.gserviceaccount.com
 ```
 
 **IMPORTANT:**
-- Add `secrets/` to `.gitignore` — never commit these files
-- The `.p8` file can only be downloaded once from App Store Connect
+- Do not commit your `.env` file — it now contains your base64 encoded private keys
+- The `.p8` file can only be downloaded once from App Store Connect (convert it to base64 and store it safely)
 - Sandbox and production environments use different URLs; the library auto-detects based on the transaction environment
 
 ---
@@ -858,7 +858,7 @@ Ei step e tumi 3 ta jinish pabe: **`.p8` file**, **Key ID** (10 char), **Issuer 
 8. **"Generate"** click koro
 9. Notun row create hobe — **"Download API Key"** link click kore `.p8` file download koro
    - ⚠️ **Eta shudhu ek baar download hoy.** Lose korle abar generate korte hobe.
-10. Download kora file ti rename kore project e save koro: `./secrets/apple-key.p8`
+10. Download kora file ti Base64 e convert kore `.env` file e `APPLE_PRIVATE_KEY_BASE64` hishebe save koro.
 
 #### Part B — Key ID copy koro
 
@@ -886,7 +886,7 @@ Ei step e tumi 3 ta jinish pabe: **`.p8` file**, **Key ID** (10 char), **Issuer 
 
 | Item | Value | `.env` variable |
 |---|---|---|
-| `.p8` file | `./secrets/apple-key.p8` | `APPLE_PRIVATE_KEY_PATH` |
+| `.p8` file | Base64 string in `.env` | `APPLE_PRIVATE_KEY_BASE64` |
 | Key ID | 10 char (e.g. `ABC1234DEF`) | `APPLE_KEY_ID` |
 | Issuer ID | UUID | `APPLE_ISSUER_ID` |
 | Bundle ID | `com.tbsosick.app` | `APPLE_BUNDLE_ID` |
@@ -898,7 +898,7 @@ Ei step e tumi 3 ta jinish pabe: **`.p8` file**, **Key ID** (10 char), **Issuer 
 2. Download:
    - `AppleRootCA-G3.cer`
    - `AppleIncRootCertificate.cer`
-3. Place both files in `./secrets/apple-root-certs/`
+3. Place both files in `./src/config/certs/apple-root-certs/`
 
 ### Step 6 — Configure Server Notifications V2
 
@@ -987,10 +987,10 @@ Ei project e amra `@apple/app-store-server-library` use kori jeta ei JWT generat
 1. Confirm koro tomar `.env` e ei value gulo set ache:
    - `APPLE_KEY_ID`
    - `APPLE_ISSUER_ID`
-   - `APPLE_PRIVATE_KEY_PATH` (`./secrets/apple-key.p8`)
+   - `APPLE_PRIVATE_KEY_BASE64` (Base64 converted string)
    - `APPLE_BUNDLE_ID`
    - `APPLE_ENVIRONMENT` (`sandbox` ba `production`)
-   - `APPLE_ROOT_CERTS_DIR` (`./secrets/apple-root-certs`)
+   - `APPLE_ROOT_CERTS_DIR` (`./src/config/certs/apple-root-certs`)
 
 2. Confirm koro App Store Connect → tomar app → App Information → "App Store Server Notifications" section e **Sandbox Server URL** set up kora ache (ngrok URL + `/api/v1/subscription/apple/webhook`, Version 2)
 
@@ -1024,7 +1024,7 @@ Ei project e amra `@apple/app-store-server-library` use kori jeta ei JWT generat
    - **`401`/`403` from Apple:** JWT credentials wrong — `APPLE_KEY_ID`, `APPLE_ISSUER_ID`, ba `.p8` file mismatch
    - **`URL not configured`:** App Store Connect e Sandbox Server URL save koro ni
    - **Backend log e kichu nai:** ngrok down, ngrok URL App Store Connect er save kora URL er sathe match korche na, ba raw body middleware order wrong (`express.raw()` `express.json()` er **age** thakte hobe, `src/app.ts` check koro)
-   - **`Apple notification verification failed`:** Root certs missing — `./secrets/apple-root-certs/` e `AppleRootCA-G3.cer` ar `AppleIncRootCertificate.cer` ache ki check koro
+   - **`Apple notification verification failed`:** Root certs missing - `./src/config/certs/apple-root-certs/` e `AppleRootCA-G3.cer` ar `AppleIncRootCertificate.cer` ache ki check koro
 
 **Test notification success mane — Apple tomar backend find korte parche ar tumi ready real events receive korar jonno.**
 
@@ -1381,7 +1381,7 @@ npx ts-node scripts/send-apple-test-notification.ts
 
 **Fix:**
 1. Download Apple root CAs from https://www.apple.com/certificateauthority/
-2. Place `.cer` files in the configured directory (default `./secrets/apple-root-certs/`)
+2. Place `.cer` files in the configured directory (default `./src/config/certs/apple-root-certs/`)
 3. Make sure files have `.cer` or `.der` extension
 
 ### Error: "APPLE_BUNDLE_ID environment variable is not configured"
@@ -1531,7 +1531,7 @@ Subscription (product — just a container, NO price here)
 3. Name: e.g. `play-billing-service` → click **Create and Continue**
 4. Skip role assignment (not needed here) → **Done**
 5. Click the service account you just created → **Keys** tab → **Add Key** → **Create new key** → JSON → **Create**
-6. A `.json` file downloads — save it as `./secrets/google-service-account.json` in your project
+6. A `.json` file downloads — convert its contents to Base64 and add it to your `.env` as `GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64`
 
 > **Tip:** Downloaded JSON er `client_email` field e service account er email already ache. Jodi Pub/Sub push subscription (Step 9) same service account diye sign kora hoy, tahole `GOOGLE_PLAY_PUBSUB_SERVICE_ACCOUNT_EMAIL` env var e ei `client_email` er value ta bosao — notun kichu banate hobe na.
 >
@@ -1628,7 +1628,7 @@ Add to `.env`:
 
 ```bash
 GOOGLE_PLAY_PACKAGE_NAME=com.yourcompany.tbsosick
-GOOGLE_PLAY_SERVICE_ACCOUNT_PATH=./secrets/google-service-account.json
+GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64=<your_base64_string_here>
 
 # Pub/Sub push verification (recommended in production)
 GOOGLE_PLAY_PUBSUB_AUDIENCE=https://<your-domain>/api/v1/subscription/google/webhook

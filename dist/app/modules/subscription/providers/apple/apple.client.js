@@ -14,7 +14,7 @@ const ApiError_1 = __importDefault(require("../../../../../errors/ApiError"));
 // server can still boot even if Apple secrets are not yet configured.
 let cachedVerifier = null;
 const loadAppleRootCertificates = () => {
-    const dir = path_1.default.resolve(config_1.default.apple.rootCertsDir || './secrets/apple-root-certs');
+    const dir = path_1.default.resolve(config_1.default.apple.rootCertsDir || './src/config/certs/apple-root-certs');
     if (!fs_1.default.existsSync(dir)) {
         throw new ApiError_1.default(http_status_1.default.INTERNAL_SERVER_ERROR, `Apple root certificates directory not found: ${dir}. Download the Apple root CAs from https://www.apple.com/certificateauthority/ and place the .cer files in this folder.`);
     }

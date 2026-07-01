@@ -68,15 +68,14 @@ exports.default = {
         appAppleId: process.env.APPLE_APP_APPLE_ID,
         keyId: process.env.APPLE_KEY_ID,
         issuerId: process.env.APPLE_ISSUER_ID,
-        privateKeyPath: process.env.APPLE_PRIVATE_KEY_PATH,
+        privateKeyBase64: process.env.APPLE_PRIVATE_KEY_BASE64,
         environment: (process.env.APPLE_ENVIRONMENT || 'sandbox'),
-        rootCertsDir: process.env.APPLE_ROOT_CERTS_DIR || './secrets/apple-root-certs',
+        rootCertsDir: process.env.APPLE_ROOT_CERTS_DIR || './src/config/certs/apple-root-certs',
     },
     // Google Play Billing (Android Publisher API + RTDN via Pub/Sub)
     googlePlay: {
         packageName: process.env.GOOGLE_PLAY_PACKAGE_NAME || '',
-        serviceAccountPath: process.env.GOOGLE_PLAY_SERVICE_ACCOUNT_PATH ||
-            './secrets/google-service-account.json',
+        serviceAccountBase64: process.env.GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64 || '',
         // Audience used to verify Pub/Sub push JWTs (set to your webhook URL).
         // If empty, JWT verification is skipped — only do that in dev.
         pubsubAudience: process.env.GOOGLE_PLAY_PUBSUB_AUDIENCE || '',

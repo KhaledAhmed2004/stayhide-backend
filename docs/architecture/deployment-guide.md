@@ -19,7 +19,7 @@ Ekhon theke apnar PC-te MongoDB ba Redis install thakar dorkar nai. Shob kichu D
 Apnar `.env` file-e nicher line gulo thaka dorkar:
 ```bash
 PORT=5002
-DATABASE_URL=mongodb://mongodb:27017/okjt100  # Docker-er bhetorer DB use korle
+DATABASE_URL=mongodb://mongodb:27017/okjt100?replicaSet=rs0  # MUST include replicaSet=rs0 for transactions
 REDIS_URL=redis://redis:6379
 ```
 
@@ -59,9 +59,9 @@ npm run docker:up
 
 ## 🔐 Part 4: Important Checklist (Dhopas kore porar agee)
 
-1.  **Secrets Folder**: Social login (Apple/Google) er jonno `secrets/` folder-e `.p8` ba `.json` file gulo thaka dorkar. Dockerfile-e amra eta auto-copy korar system kore diyechi.
+1.  **Environment Variables for Secrets**: Social login/billing (Apple/Google) er jonno Base64 secrets `.env` file e `APPLE_PRIVATE_KEY_BASE64` ebong `GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64` hishebe set korte hobe. Server-e alada kore kono `secrets/` folder ba `.json/.p8` file rakhar dorkar nei, shobtai environment variable theke dynamically load hobe.
 2.  **Volumes**: User-er upload kora chobi jate muche na jay, sheijonno `docker-compose`-e `uploads` volume add kora hoyeche. Server-e `uploads` folder-er permission thik thakte hobe.
-3.  **Security Groups (AWS)**: AWS firewall (Security Group)-e port `5002` (ba apni jeta use koren) open kore dite hobe, noile baire theke API access kora jabe na.
+3.  **Security Groups (AWS)**: AWS firewall (Security Group)-e port `80` (HTTP) ebong `443` (HTTPS) open korte hobe. Port `5002` baire theke block thakbe, API shudhu Nginx-er maddhome access hobe.
 4.  **Reverse Proxy**: Production-e shorashori port 5002-te hit na kore **Nginx** use kora bhalo (SSL/HTTPS er jonno).
 
 ---
@@ -74,4 +74,4 @@ npm run docker:up
 
 ---
 
-> **Pro-Tip**: Github Actions use korle apni chaitile [deploy-aws.yml](file:///d:/Khaled/re-factor/okjt100/.github/workflows/deploy-aws.yml) diye auto-deploy-o set korte parben.
+> **Pro-Tip**: Github Actions use korle apni chaitile `.github/workflows/deploy-aws.yml` diye auto-deploy-o set korte parben.
